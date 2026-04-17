@@ -23,7 +23,7 @@ public class JavaTriggers {
     public static List<AudioPlayer> players = new ArrayList<>();
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static boolean TriggerDebugScreen = true; //If enabled, it will pop up a separate window with realTime information on variables.
+    public static boolean TriggerDebugScreen = false; //If enabled, it will pop up a separate window with realTime information on variables.
 
     public JavaTriggers() {
         ModLogger.setupCustomLogger(MODID);

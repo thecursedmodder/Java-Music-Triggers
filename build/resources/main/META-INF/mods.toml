@@ -9,7 +9,7 @@ modLoader = "javafml" #mandatory
 loaderVersion = "[47,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
-license = "All Rights Reserved"
+license = "GNU V3.0"
 # A URL to refer people to when problems occur with this mod
 #issueTrackerURL="https://change.me.to.your.issue.tracker.example.invalid/" #optional
 # A list of mods - how many allowed here is determined by the individual mod loader
@@ -19,7 +19,7 @@ modId = "javatriggers" #mandatory
 # The version number of the mod
 version = "1.0.0" #mandatory
 # A display name for the mod
-displayName = "Java Triggers" #mandatory
+displayName = "Java Music Triggers" #mandatory
 # A URL to query for updates for this mod. See the JSON update specification https://docs.minecraftforge.net/en/latest/misc/updatechecker/
 #updateJSONURL="https://change.me.example.invalid/updates.json" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
@@ -39,7 +39,7 @@ authors = "TheCursedModder" #optional
 #displayTest="MATCH_VERSION" # MATCH_VERSION is the default if nothing is specified (#optional)
 
 # The description text for the mod (multi line!) (#mandatory)
-description = '''Adds addition triggers to music triggers specific to the pack Era of Decay...'''
+description = '''Adds the ability to create advanced custom music for the average mod-pack developer.'''
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
 [[dependencies."javatriggers"]] #optional
 # the modid of the dependency

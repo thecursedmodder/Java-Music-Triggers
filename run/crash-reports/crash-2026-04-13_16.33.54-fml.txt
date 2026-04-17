@@ -60,7 +60,7 @@ Stacktrace:
 	at net.minecraftforge.common.ForgeConfigSpec$ConfigValue.get(ForgeConfigSpec.java:848) ~[forge-1.20.1-47.4.13_mapped_official_1.20.1.jar%23190%23197!/:?] {re:classloading}
 	at net.cursedmodder.javatriggers.util.debug.watch.DebugUI.watch(DebugUI.java:46) ~[%23196!/:?] {re:classloading}
 	at net.cursedmodder.javatriggers.util.debug.watch.DebugUI.watch(DebugUI.java:38) ~[%23196!/:?] {re:classloading}
-	at net.cursedmodder.javatriggers.triggers.example.Rain.<init>(Rain.java:12) ~[%23196!/:?] {re:classloading}
+	at net.cursedmodder.javatriggers.triggers.example.RainTriggerExample.<init>(Rain.java:12) ~[%23196!/:?] {re:classloading}
 	at net.cursedmodder.javatriggers.JavaTriggers.<init>(JavaTriggers.java:47) ~[%23196!/:?] {re:classloading}
 	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method) ~[?:?] {}
 	at jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77) ~[?:?] {}

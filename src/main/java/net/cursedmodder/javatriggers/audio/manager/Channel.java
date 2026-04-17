@@ -21,11 +21,10 @@ public class Channel implements Runnable {
     public int songLayerCount; //Starts from 1
     private Song song;
 
+
     public Channel() {
-        new Thread(() -> {
-            this.audioPlayer = new AudioPlayer(AudioPlayer.generateNewID());
-            this.audioPlayer.channel = this;
-        },"Audio_Player_Channel_1").start();
+        this.audioPlayer = new AudioPlayer(AudioPlayer.generateNewID());
+        this.audioPlayer.channel = this;
     }
 
     public Song getSong() {

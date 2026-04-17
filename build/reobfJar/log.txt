@@ -140,11 +140,11 @@ Adding input to inheritance map
 Processing entries
 Conflicting propagated mapping for net/minecraft/world/entity/LivingEntity/lambda$addAdditionalSaveData$3(Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/nbt/Tag;)V from net/minecraft/world/entity/player/Player/lambda$addAdditionalSaveData$3(Lnet/minecraft/nbt/CompoundTag;Lnet/minecraft/nbt/Tag;)V: lambda$addAdditionalSaveData$3 -> m_219754_
 Can't Find Class: org/jaudiolibs/audioservers/AudioClient
-Can't Find Class: org/jaudiolibs/audioservers/AudioServer
-Can't Find Class: org/jaudiolibs/audioservers/AudioConfiguration
 Can't Find Class: org/jaudiolibs/audioservers/ext/Device
+Can't Find Class: org/jaudiolibs/audioservers/AudioConfiguration
 Can't Find Class: org/jaudiolibs/audioservers/javasound/JSTimingMode
 Can't Find Class: org/jaudiolibs/audioservers/ext/ClientID
+Can't Find Class: org/jaudiolibs/audioservers/AudioServer
 Can't Find Class: org/jaudiolibs/audioservers/ext/Connections
 Can't Find Class: org/jaudiolibs/audioservers/AudioServerProvider
 Adding extras
@@ -162,15 +162,6 @@ Writing Output: C:\Moda\JavaTriggers\JavaTriggersV2\build\reobfJar\output.jar
   assets/javatriggers/audio/beat.mp3
   assets/javatriggers/audio/beat_layer1.mp3
   assets/javatriggers/audio/beat_layer2.mp3
-  assets/javatriggers/audio/bloodflow.mp3
-  assets/javatriggers/audio/fallen_man.mp3
-  assets/javatriggers/audio/lurker_layer1s.mp3
-  assets/javatriggers/audio/lurkers.mp3
-  assets/javatriggers/audio/lurkers_layer1.mp3
-  assets/javatriggers/audio/lurkers_layer2.mp3
-  assets/javatriggers/audio/lurkers_layer3.mp3
-  assets/javatriggers/audio/lurkers_layer4.mp3
-  assets/javatriggers/audio/outbreak.mp3
   ddf/
   ddf/minim/
   ddf/minim/AudioBuffer.class
@@ -709,14 +700,15 @@ Writing Output: C:\Moda\JavaTriggers\JavaTriggersV2\build\reobfJar\output.jar
   net/cursedmodder/javatriggers/triggers/example/Death.class
   net/cursedmodder/javatriggers/triggers/example/General.class
   net/cursedmodder/javatriggers/triggers/example/Menu.class
-  net/cursedmodder/javatriggers/triggers/example/MobTrigger.class
   net/cursedmodder/javatriggers/triggers/example/Night.class
   net/cursedmodder/javatriggers/triggers/example/Rain.class
+  net/cursedmodder/javatriggers/triggers/example/TriggerSongs.class
+  net/cursedmodder/javatriggers/triggers/example/extendable/
+  net/cursedmodder/javatriggers/triggers/example/extendable/MobTrigger.class
   net/cursedmodder/javatriggers/triggers/songs/
   net/cursedmodder/javatriggers/triggers/songs/BasicSong.class
   net/cursedmodder/javatriggers/triggers/songs/Song.class
   net/cursedmodder/javatriggers/triggers/songs/SongList.class
-  net/cursedmodder/javatriggers/triggers/songs/TriggerSongs.class
   net/cursedmodder/javatriggers/triggers/songs/layer/
   net/cursedmodder/javatriggers/triggers/songs/layer/ConditionInterface.class
   net/cursedmodder/javatriggers/triggers/songs/layer/LayerCondition.class

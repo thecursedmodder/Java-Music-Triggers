@@ -6,6 +6,6 @@ Specification-Version: 1
 Implementation-Title: javatriggers
 Implementation-Version: 1.0.0
 Implementation-Vendor: TheCursedModder
-Implementation-Timestamp: 2026-04-15T19:06:33-0700
+Implementation-Timestamp: 2026-04-15T21:12:34-0700
 MixinConfigs: javatriggers.mixins.json
 

@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class TriggerBase implements Comparable<TriggerBase> {
-    protected TriggerState state = TriggerState.IDLE;
+    private TriggerState state = TriggerState.IDLE;
+    //Your changeable variables
     protected int priority;
     protected int timeTillActive = 0; //Adds time before the trigger can play
     protected int timeTillDeactivate = 0;
@@ -22,7 +23,7 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
     public int timeTillActivationCounter;
     private float pauseVolumePercentage = 0.5F;
     public boolean playInBackGround = false;
-
+    //End
     protected SongList songList;
 
     public TriggerBase(int Priority, int TimeTillActive, int TimeTillDeactivate, boolean UnderWaterDSP, float baseVol, float pauseVol, Song... songs) {

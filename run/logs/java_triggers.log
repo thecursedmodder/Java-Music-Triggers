@@ -35,7 +35,7 @@
 [17:32:16] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [17:32:16] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [17:32:16] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[17:32:16] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@75a70ec5
+[17:32:16] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@75a70ec5
 [17:32:16] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [17:33:51] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
 [17:36:55] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
@@ -44,7 +44,7 @@
 [17:36:59] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [17:36:59] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [17:36:59] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[17:36:59] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@7550d8bc
+[17:36:59] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@7550d8bc
 [17:36:59] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [17:37:12] [Render thread/INFO] [javatriggers]: Trigger General is being set to QUEUED from IDLE
 [17:44:14] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
@@ -53,7 +53,7 @@
 [17:44:17] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [17:44:17] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [17:44:17] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[17:44:17] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@4569aa8f
+[17:44:17] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@4569aa8f
 [17:44:17] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [17:45:26] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
 [17:45:30] [Render thread/INFO] [javatriggers]: Trigger Menu is being set to QUEUED from IDLE
@@ -61,7 +61,7 @@
 [17:45:30] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [17:45:30] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [17:45:30] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[17:45:30] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@4f416a88
+[17:45:30] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@4f416a88
 [17:45:30] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [17:46:01] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
 [17:46:05] [Render thread/INFO] [javatriggers]: Trigger Menu is being set to QUEUED from IDLE
@@ -69,7 +69,7 @@
 [17:46:05] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [17:46:05] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [17:46:05] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[17:46:05] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@a67375d
+[17:46:05] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@a67375d
 [17:46:05] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [17:46:25] [Render thread/INFO] [javatriggers]: Trigger General is being set to QUEUED from IDLE
 [17:47:38] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
@@ -78,7 +78,7 @@
 [17:47:42] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [17:47:42] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [17:47:42] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[17:47:42] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@69461766
+[17:47:42] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@69461766
 [17:47:42] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [17:49:10] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
 [17:49:13] [Render thread/INFO] [javatriggers]: Trigger Menu is being set to QUEUED from IDLE
@@ -86,7 +86,7 @@
 [17:49:13] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [17:49:13] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [17:49:13] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[17:49:13] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@27a57a3c
+[17:49:13] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@27a57a3c
 [17:49:13] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [17:49:39] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
 [17:49:43] [Render thread/INFO] [javatriggers]: Trigger Menu is being set to QUEUED from IDLE
@@ -94,7 +94,7 @@
 [17:49:43] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [17:49:43] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [17:49:43] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[17:49:43] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@31e3bd0a
+[17:49:43] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@31e3bd0a
 [17:49:43] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [17:51:59] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
 [17:52:03] [Render thread/INFO] [javatriggers]: Trigger Menu is being set to QUEUED from IDLE
@@ -102,7 +102,7 @@
 [17:52:03] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [17:52:03] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [17:52:03] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[17:52:03] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@54facec3
+[17:52:03] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@54facec3
 [17:52:03] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [17:52:56] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
 [17:53:00] [Render thread/INFO] [javatriggers]: Trigger Menu is being set to QUEUED from IDLE
@@ -110,7 +110,7 @@
 [17:53:00] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [17:53:00] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [17:53:00] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[17:53:00] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@5d51e19f
+[17:53:00] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@5d51e19f
 [17:53:00] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [18:14:55] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
 [18:14:59] [Render thread/INFO] [javatriggers]: Trigger Menu is being set to QUEUED from IDLE
@@ -118,7 +118,7 @@
 [18:14:59] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [18:14:59] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [18:14:59] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[18:14:59] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@35a82955
+[18:14:59] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@35a82955
 [18:14:59] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [18:15:26] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
 [18:15:29] [Render thread/INFO] [javatriggers]: Trigger Menu is being set to QUEUED from IDLE
@@ -126,7 +126,7 @@
 [18:15:29] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [18:15:29] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [18:15:29] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[18:15:29] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@77e30903
+[18:15:29] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@77e30903
 [18:15:29] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [18:17:16] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
 [18:17:20] [Render thread/INFO] [javatriggers]: Trigger Menu is being set to QUEUED from IDLE
@@ -134,7 +134,7 @@
 [18:17:20] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [18:17:20] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [18:17:20] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[18:17:20] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@64e2a0ab
+[18:17:20] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@64e2a0ab
 [18:17:20] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [18:17:30] [Render thread/INFO] [javatriggers]: Trigger General is being set to QUEUED from IDLE
 [18:19:55] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
@@ -143,7 +143,7 @@
 [18:19:59] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [18:19:59] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [18:19:59] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[18:19:59] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@74009c0f
+[18:19:59] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@74009c0f
 [18:19:59] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3
 [18:20:53] [modloading-worker-0/INFO] [javatriggers]: Custom logger initialized - writing to logs/java_triggers.log
 [18:20:57] [Render thread/INFO] [javatriggers]: Trigger Menu is being set to QUEUED from IDLE
@@ -151,5 +151,5 @@
 [18:20:57] [Audio_Channel/INFO] [javatriggers]: Passed Loading Check
 [18:20:57] [Audio_Channel/INFO] [javatriggers]: Passed switching check: outbreak.mp3
 [18:20:57] [Audio_Channel/INFO] [javatriggers]: Player is null!
-[18:20:57] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@2833e7b1
+[18:20:57] [Audio_Queue/INFO] [javatriggers]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@2833e7b1
 [18:20:57] [Audio_Queue/INFO] [javatriggers]: [Minim] Successfully loaded resource: outbreak.mp3

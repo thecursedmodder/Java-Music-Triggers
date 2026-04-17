@@ -46,7 +46,7 @@
 [13Apr2026 16:36:47.778] [Render thread/INFO] [javatriggers/]: Trigger Menu is being set to QUEUED from IDLE
 [13Apr2026 16:36:47.778] [Render thread/INFO] [javatriggers/]: Passed switching check: outbreak.mp3
 [13Apr2026 16:36:47.779] [Render thread/INFO] [javatriggers/]: Passed Loading Check
-[13Apr2026 16:36:47.779] [Audio_Queue/INFO] [javatriggers/]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.Menu@129660f1
+[13Apr2026 16:36:47.779] [Audio_Queue/INFO] [javatriggers/]: Queueing songoutbreak.mp3 for net.cursedmodder.javatriggers.triggers.example.MenuTriggerExample@129660f1
 [13Apr2026 16:36:47.783] [Audio_Queue/INFO] [javatriggers/]: [Minim] Successfully loaded resource: outbreak.mp3
 [13Apr2026 16:36:47.787] [Audio_Queue/ERROR] [net.minecraftforge.eventbus.EventSubclassTransformer/EVENTBUS]: Could not find parent org/tritonus/share/sampled/file/TAudioFileReader for class ddf/minim/javasound/MpegAudioFileReader in classloader cpw.mods.modlauncher.TransformingClassLoader@101a461c on thread Thread[Audio_Queue,10,main]
 [13Apr2026 16:36:47.787] [Audio_Queue/ERROR] [net.minecraftforge.eventbus.EventSubclassTransformer/EVENTBUS]: An error occurred building event handler

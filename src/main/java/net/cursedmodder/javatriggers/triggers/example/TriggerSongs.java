@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class TriggerSongs {
-
+//Having an a class where you can create your Song variables is a nice touch for readability
     public static List<Song> generalSongs() {
         List<Song> songs = new ArrayList<>();
         //songs.add(new BasicSong("beat.mp3").setStats(200, 100, 1F).setPlayConditions(false, false));

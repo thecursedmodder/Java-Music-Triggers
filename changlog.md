@@ -1,0 +1,3 @@
+-Fixed rare crash from a multithreading issue in Channel
+-Made the debug window false by default
+-Changed all triggers in the example folder to have TriggerExample after their name.

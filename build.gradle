@@ -163,8 +163,7 @@ dependencies {
                     zipTree(file('src/dep/tritonus_aos-0.3.6.jar')),
                     zipTree(file('src/dep/tritonus_share-0.3.6.jar')),
                     zipTree(file('src/dep/jl1.0.1.jar')),
-                    zipTree(file('src/dep/mp3spi1.9.5.jar')),
-                    zipTree(file('src/dep/beads-3.2.jar'))
+                    zipTree(file('src/dep/mp3spi1.9.5.jar'))
             ]
         }
 
@@ -217,6 +216,8 @@ tasks.named('jar', Jar).configure {
     // This is the preferred method to reobfuscate your jar file
     finalizedBy 'reobfJar'
 }
+
+
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
