@@ -15,7 +15,9 @@ public class TriggerSongs {
     public static List<Song> generalSongs() {
         List<Song> songs = new ArrayList<>();
         //songs.add(new BasicSong("beat.mp3").setStats(200, 100, 1F).setPlayConditions(false, false));
-        songs.add(new LayeredSong("beat.mp3", new LayerCondition("beat", ".mp3", 1).setStats(20, 30, 1.0F).setPlayCondition(() -> ClientContext.isBellowHealth(10)), new LayerCondition("beat", ".mp3", 2).setStats(20, 20, 1.0F).setPlayCondition(ClientContext::isPassenger)).setStats(9000, 100, 100, 1.0F).setPlayConditions(false, 0));
+        songs.add(new LayeredSong("beat.mp3",
+                new LayerCondition("beat", ".mp3", 1).setStats(20, 30, 1.0F).setPlayCondition(() -> ClientContext.isBellowHealth(10)),
+                new LayerCondition("beat", ".mp3", 2).setStats(20, 20, 1.0F).setPlayCondition(ClientContext::isPassenger)).setStats(9000, 100, 100, 1.0F).setPlayConditions(false, 0));
         return songs;
     }
 

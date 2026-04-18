@@ -138,7 +138,7 @@ public class FoundationTriggerHandler {
             if (mc.isPaused()) {
                 float pauseVolume = channel1.getSong().getAttachedTrigger().getPauseVolumePercentage();
                 if (pauseVolume > 0) {
-                    masterVolume = (channel1.getSong().getVolume() * mc.options.getSoundSourceVolume(SoundSource.MUSIC) * pauseVolume);
+                    masterVolume = (channel1.getSong().getVolume() * mc.options.getSoundSourceVolume(SoundSource.MUSIC) * pauseVolume * mc.options.getSoundSourceVolume(SoundSource.MASTER));
                 } else {
                     masterVolume = 0;
                     channel1.audioPlayer.pause(2);
@@ -147,7 +147,7 @@ public class FoundationTriggerHandler {
                 if (channel1.getSong().getAttachedTrigger().playInBackGround && !Minecraft.getInstance().isWindowActive()) {
                     channel1.audioPlayer.pause(2);
                 } else channel1.audioPlayer.play();
-                masterVolume = mc.options.getSoundSourceVolume(SoundSource.MUSIC);
+                masterVolume = mc.options.getSoundSourceVolume(SoundSource.MUSIC) * mc.options.getSoundSourceVolume(SoundSource.MASTER);
             }
 
         }
@@ -160,8 +160,6 @@ public class FoundationTriggerHandler {
 
     private static void setSong(Channel channel, Song song, TriggerBase trigger) {
         channel.setAudio(song, trigger);
-        //currentTrigger.setTriggerState(TriggerState.PLAYING);
-        //AudioLogger.info("Setting song " + song.getSongName() + ". Moving to trigger " + trigger.getName() + " to " + TriggerState.PLAYING.name());
     }
 
     private static boolean isCurrentTriggerInterruptible(TriggerBase base) {

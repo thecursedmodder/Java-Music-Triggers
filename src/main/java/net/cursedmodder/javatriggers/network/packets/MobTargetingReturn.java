@@ -1,6 +1,7 @@
 package net.cursedmodder.javatriggers.network.packets;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -10,8 +11,8 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class MobTargetingReturn {
-    public static int mobId;
-    public static int targetId;
+    public int mobId;
+    public int targetId;
 
     //Every time a zombie chooses a new target it sends a packet to the client
     public MobTargetingReturn(int ID, int target) {
@@ -32,7 +33,7 @@ public class MobTargetingReturn {
     public boolean handle(Supplier<NetworkEvent.Context> supplier) {
         NetworkEvent.Context context = supplier.get();
         context.enqueueWork(() -> {
-            Level level = Minecraft.getInstance().level;
+            ClientLevel level = Minecraft.getInstance().level;
             if(level.getEntity(mobId) instanceof Mob mob) {
                 if (targetId < 0) {
                     mob.setTarget(null);

@@ -31,5 +31,10 @@
       <option name="name" value="TarsosDSP repository" />
       <option name="url" value="https://mvn.0110.be/releases" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="ParchmentMC" />
+      <option name="name" value="ParchmentMC" />
+      <option name="url" value="https://maven.parchmentmc.org/" />
+    </remote-repository>
   </component>
 </project>

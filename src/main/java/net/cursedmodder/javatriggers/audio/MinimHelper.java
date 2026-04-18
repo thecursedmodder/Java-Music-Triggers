@@ -18,7 +18,7 @@ public class MinimHelper {
     // Minim calls this automatically
     public InputStream createInput(String fileName) {
         // filename can be "/sounds/my_sound.mp3" (leading / = root of classpath)
-        InputStream is = JavaTriggers.class.getResourceAsStream("/assets/javatriggers/audio/" + fileName);
+        InputStream is = JavaTriggers.origin.getResourceAsStream("/assets/javatriggers/audio/" + fileName);
 
         if (is == null) {
             AudioLogger.error("[Minim] RESOURCE NOT FOUND: " + fileName);

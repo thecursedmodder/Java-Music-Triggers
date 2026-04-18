@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/javatriggers.main.iml" filepath="$PROJECT_DIR$/.idea/modules/javatriggers.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/javatriggers.test.iml" filepath="$PROJECT_DIR$/.idea/modules/javatriggers.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/net.cursedmodder.javatriggers.javatriggers.test.iml" filepath="$PROJECT_DIR$/.idea/modules/net.cursedmodder.javatriggers.javatriggers.test.iml" />
     </modules>
   </component>
 </project>

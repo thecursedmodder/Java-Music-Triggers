@@ -15,7 +15,7 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
     protected int timeTillActive = 0; //Adds time before the trigger can play
     protected int timeTillDeactivate = 0;
     protected boolean underWaterEffect = true;
-    public float baseVolume = 1F;
+    public float baseVolume = 1F; //Uh Useless?
     protected boolean canForceInterrupted = false; //Allows the trigger to interrupt any songs with a lesser priority;
     protected boolean canBeInterrupted = true;
     protected int lowPassAmount = 1500; //Default
@@ -81,7 +81,7 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
         while (song.hasPlayed && count <= songList.getSongs().size()) {
             count++;
             if(song.hasPlayed) playedSongs++;
-            if(song.playOnce >= 1 && song.hasPlayed) continue;
+            if(song.playOnce >= 1 && song.hasPlayed || !song.canSongPlay) continue;
             song = songList.getSongs().get(random.nextInt(songList.getSongs().size()));
         }
 

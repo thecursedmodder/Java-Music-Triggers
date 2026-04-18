@@ -20,15 +20,15 @@ public class TriggerMessages {
     }
 
     public static void register() {
-        Instance = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(JavaTriggers.MODID, "messages")).networkProtocolVersion(() -> {
-            return "1.0";
+        SimpleChannel net = NetworkRegistry.ChannelBuilder.named(new ResourceLocation(JavaTriggers.MODID, "messages")).networkProtocolVersion(() -> {
+            return "1.1";
         }).clientAcceptedVersions((s) -> {
             return true;
         }).serverAcceptedVersions((s) -> {
             return true;
         }).simpleChannel();
-
-        Instance.messageBuilder(MobTargetingReturn.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+        Instance = net;
+        net.messageBuilder(MobTargetingReturn.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(MobTargetingReturn::new)
                 .encoder(MobTargetingReturn::ToBytes)
                 .consumerMainThread(MobTargetingReturn::handle)
