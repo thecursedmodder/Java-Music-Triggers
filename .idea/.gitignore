@@ -1,3 +1,14 @@
-# Default ignored files
-/shelf/
-/workspace.xml
+*
+
+# Allow specific files
+!README.md
+!src/
+!src/**
+!build.gradle
+!gradle.properties
+!settings.gradle
+!LICENSE
+!changlog.md
+!gradle/
+!gradle/**
+!gradlew
