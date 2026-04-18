@@ -1,11 +1,11 @@
-Java Music Triggers (JMT) is an open-source Minecraft mod that makes it easy to create advanced, dynamic music.
+Java Music Control (JMC) is an open-source Minecraft mod that makes it easy to create advanced, dynamic music.
 You will need to create your own mod to use this one. However, if you are new to modding, this is a great place to start. 
 As for experienced modders, this will likely be the easiest library you will use.
-The documentation for this library mod will be immense, with the soon-to-come video tutorials breaking down everything you will need to create your own music mod for JMT.
+The documentation for this library mod will be immense, with the soon-to-come video tutorials breaking down everything you will need to create your own music mod for JMC.
 
 Features: 
-JMT uses booleans (True or False) for determining if a trigger can play. Each trigger also has a priority and other parameters.
-JMT has a decent amount of Context for creating triggers. Context is essentially just safe to access booleans.
+JMC uses booleans (True or False) for determining if a trigger can play. Each trigger also has a priority and other parameters.
+JMC has a decent amount of Context for creating triggers. Context is essentially just safe to access booleans.
 
 Multilayered audio: different instruments can be played during different situations in real time!
 
@@ -29,7 +29,7 @@ File Support: Currently, it supports MP3 and WAV at 44.1khz. I recommend downloa
 Getting started, Experienced Users:
 
 You're going to want to use [cursemaven](https://www.cursemaven.com). Follow the instructions for adding the repository.
-Navigate to Curseforge for [JMT](https://www.curseforge.com/minecraft/mc-mods/java-music-triggers/files/all?page=1&pageSize=20&showAlphaFiles=show). Select the latest version of JMT 
+Navigate to Curseforge for [JMC](https://www.curseforge.com/minecraft/mc-mods/java-music-triggers/files/all?page=1&pageSize=20&showAlphaFiles=show). Select the latest version of JMC 
 and look for Curse Maven Snippet. Make sure the version matches the one you're creating for! Then, copy and paste it into your build.gradle file in the dependency category.
 
 Creating Triggers:
