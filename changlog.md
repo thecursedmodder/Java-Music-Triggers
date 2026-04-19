@@ -19,3 +19,5 @@
 -added isClimbing check
 -added isSwimming check
 -added isDayCountAtOrBeyond check
+1.0.4
+-switched the loading boolean to atomic from volatile for a major stability increase.

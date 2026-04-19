@@ -24,6 +24,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @OnlyIn(Dist.CLIENT)
 public class AudioPlayer  {
@@ -58,7 +59,7 @@ public class AudioPlayer  {
     private float maxVolume = 1F;
     public Channel channel;
     private boolean paused;
-    public volatile boolean loading;
+    public AtomicBoolean loading = new AtomicBoolean(false); //HELL YEAH! WE'RE GOING ATOMIC! Increases reliability over volatile boolean.
     private int tickCount;
     public boolean switching;
     public boolean layer;
@@ -125,7 +126,7 @@ public class AudioPlayer  {
                 this.fadeOut(layer);
             }
             new Thread(() -> {
-                    while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading || this.song != null && this.song.mustFinish() && this.isPlaying()) {
+                    while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading.get() || this.song != null && this.song.mustFinish() && this.isPlaying()) {
                         //System.out.println("Spinning");
                         if(cancel) break;
                         Thread.onSpinWait();
@@ -168,10 +169,7 @@ public class AudioPlayer  {
             preloadNextSong(song);
             this.fadeOut(layer);
             new Thread(() -> {
-                //TODO Notice that the fading system between the songs is not automatic. The audio fading system shouldn't fail do to it not finishing a fadeIn or fade out.
-                //if(player != null) Thread.sleep(fadeOut * 50L);
-                while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading) {
-                    //System.out.println("Spinning");
+                while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading.get()) {
                     if(cancel) break;
                     Thread.onSpinWait();
                 }
@@ -249,12 +247,13 @@ public class AudioPlayer  {
     private Thread audioQueue;
     public void preloadNextSong(Song song) {
         queuedSong = song;
-        if(this.loading || queuedPlayer != null){
+        if(this.loading.get() || queuedPlayer != null){
             audioQueue.interrupt();
+            loading.compareAndSet(false, true); //Should fix thread desync
             audioQueue = null;
-            //resetQueue();
+            resetAudioQueue();
         }
-        loading = true;
+        loading.compareAndSet(false, true);
 
         audioQueue = new Thread(() -> {
             AudioLogger.info("Queueing song" + song.getSongName() + " for " + song.getAttachedTrigger());
@@ -265,9 +264,10 @@ public class AudioPlayer  {
                queuedLayers = channel.createNewAudioLayers(song1.getLayers(), song1, this);
             }
             queuedPlayer.pause();
-            loading = false;
+            loading.compareAndSet(true, false);
         }, "Audio_Queue");
         audioQueue.start();
+        audioQueue = null;
     }
 
 
@@ -339,7 +339,7 @@ public class AudioPlayer  {
     }
 
     public boolean isPlaying() {
-        if(loading) return true;
+        if(loading.get()) return true;
         if(player != null) {
             if(player.isPaused()) return true;
             return player.isPlaying();
