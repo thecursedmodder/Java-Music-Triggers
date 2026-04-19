@@ -1,3 +1,5 @@
+Please shoot me better name ideas...
+
 Java Music Control (JMC) is an open-source Minecraft mod that makes it easy to create advanced, dynamic music.
 You will need to create your own mod to use this one. However, if you are new to modding, this is a great place to start. 
 As for experienced modders, this will likely be the easiest library you will use.
