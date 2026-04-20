@@ -3,6 +3,7 @@ package net.cursedmodder.javatriggers.triggers.base;
 import net.cursedmodder.javatriggers.triggers.songs.Song;
 import net.cursedmodder.javatriggers.triggers.songs.SongList;
 import net.cursedmodder.javatriggers.util.debug.AudioLogger;
+import net.cursedmodder.javatriggers.util.debug.watch.DebugUI;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -33,6 +34,7 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
         timeTillDeactivate = TimeTillDeactivate;
         baseVolume = baseVol;
         pauseVolumePercentage = pauseVol;
+        DebugUI.watch(this.getClass(), "state", this::triggerState);
         registerSongs(songs);
     }
 

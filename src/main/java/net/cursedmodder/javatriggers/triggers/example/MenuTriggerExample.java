@@ -8,7 +8,6 @@ import net.cursedmodder.javatriggers.util.debug.watch.DebugUI;
 public class MenuTriggerExample extends TriggerBase {
     public MenuTriggerExample() {
         super(3, 100, 0, false, 1F, 1F, TriggerSongs.menuSongs().toArray(new Song[0]));
-        DebugUI.watch(this.getClass(), "state", this::triggerState);
     }
 
     @Override

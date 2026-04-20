@@ -143,7 +143,7 @@ public class Pan extends UGen
 
 		float normBalance = ( panValue + 1.f ) * 0.5f;
 
-		// note that I am calculating amplitude directly, by using the linear
+		// note.txt that I am calculating amplitude directly, by using the linear
 		// value
 		// that the MIDI specification suggests inputing into the dB formula.
 		float leftAmp = (float)Math.cos( PIOVER2 * normBalance );

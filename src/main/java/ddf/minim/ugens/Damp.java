@@ -47,7 +47,7 @@ public class Damp extends UGen
 	private float now;
 	// the damp has been activated
 	private boolean isActivated;
-	// unpatch the note after it's finished
+	// unpatch the note.txt after it's finished
 	private boolean unpatchAfterDamp;
 	// it might need to unpatch from an output
 	private AudioOutput output;

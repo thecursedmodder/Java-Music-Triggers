@@ -16,15 +16,15 @@ package ddf.minim.ugens;
 public interface Instrument
 {
 	/**
-	 * Start playing a note. 
+	 * Start playing a note.txt.
 	 * This is called by AudioOutput when this Instrument's
-	 * note should begin, based on the values passed to playNote.
+	 * note.txt should begin, based on the values passed to playNote.
 	 * Typically you will patch your UGen chain to your AudioOutput here.
 	 * 
-	 * @shortdesc Start playing a note.
+	 * @shortdesc Start playing a note.txt.
 	 * 
 	 * @param duration
-	 *            float: how long the note will last 
+	 *            float: how long the note.txt will last
 	 *            (i.e. noteOff will be called after this many seconds)
 	 * 
 	 * @example Basics/CreateAnInstrument
@@ -35,12 +35,12 @@ public interface Instrument
 	void noteOn(float duration);
 
 	/**
-	 * Stop playing a note. 
+	 * Stop playing a note.txt.
 	 * This is called by AudioOuput when this Instrument's 
-	 * note should end, based on the values passed to playNote.
+	 * note.txt should end, based on the values passed to playNote.
 	 * Typically you will unpatch your UGen chain from your AudioOutput here.
 	 * 
-	 * @shortdesc Stop playing a note.
+	 * @shortdesc Stop playing a note.txt.
 	 * 
 	 * @example Basics/CreateAnInstrument
 	 * 

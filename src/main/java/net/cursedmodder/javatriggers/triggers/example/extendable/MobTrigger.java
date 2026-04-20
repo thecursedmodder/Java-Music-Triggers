@@ -25,14 +25,12 @@ public class MobTrigger extends TriggerBase {
     public MobTrigger(int Priority, Song[] songs, String... allowedMobs) {
         super(Priority, songs);
         this.allowedMobs = Set.of(allowedMobs);
-        DebugUI.watch(this.getClass(), "state", this::triggerState);
         DebugUI.watch(this.getClass(), "mobCount", () -> currentMobCount);
     }
 
     public MobTrigger(int Priority, int TimeTillActive, int TimeTillDeactivate, boolean UnderWaterDSP, float baseVol, float pauseVol, Song[] songs, String... allowedMobs) {
         super(Priority, TimeTillActive, TimeTillDeactivate, UnderWaterDSP, baseVol, pauseVol, songs);
         this.allowedMobs = Set.of(allowedMobs);
-        DebugUI.watch(this.getClass(), "state", this::triggerState);
         DebugUI.watch(this.getClass(), "mobCount", () -> currentMobCount);
     }
 

@@ -92,7 +92,7 @@ public class AudioPlayer  {
     public void changeSong(Song song) {
         if(switching && song == queuedSong) return;
         AudioLogger.info("Passed switching check: " + song.getSongName());
-        changeToNextSong(song.getFadeIn() > 0, layer, song);
+        changeToNextSong(song.getFadeIn() > 0, song);
     }
 
     private volatile boolean isCancelable;
@@ -109,7 +109,7 @@ public class AudioPlayer  {
         }
     }
 
-    public void changeToNextSong(boolean fade, boolean layer, Song song) {
+    public void changeToNextSong(boolean fade, Song song) {
         if(switching && song != queuedSong) {
             if(isCancelable) {
                 cancelSongChange();
@@ -123,7 +123,7 @@ public class AudioPlayer  {
             //AudioLogger.info("Passed fade boolean");
             preloadNextSong(song);
             if(this.song != null && !this.song.mustFinish()) {
-                this.fadeOut(layer);
+                this.fadeOut(false);
             }
             new Thread(() -> {
                     while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading.get() || this.song != null && this.song.mustFinish() && this.isPlaying()) {
@@ -163,13 +163,14 @@ public class AudioPlayer  {
                         playFadeIn();
                         resetQueue();
                     });
-
             }, "Audio_Switcher").start();
         } else {
             preloadNextSong(song);
-            this.fadeOut(layer);
+            if(this.song != null && !this.song.mustFinish()) {
+                this.fadeOut(false);
+            }
             new Thread(() -> {
-                while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading.get()) {
+                while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading.get() || this.song != null && this.song.mustFinish() && this.isPlaying()) {
                     if(cancel) break;
                     Thread.onSpinWait();
                 }
@@ -206,7 +207,6 @@ public class AudioPlayer  {
                     playAt(song.startTime);
                     resetQueue();
                 });
-
             }, "Audio_Switcher").start();
         }
     }
@@ -247,16 +247,16 @@ public class AudioPlayer  {
     private Thread audioQueue;
     public void preloadNextSong(Song song) {
         queuedSong = song;
-        if(this.loading.get() || queuedPlayer != null){
+        if(this.loading.get() || queuedPlayer != null) {
             audioQueue.interrupt();
-            loading.compareAndSet(false, true); //Should fix thread desync
+            loading.compareAndSet(false, true); //Should fix thread de sync
             audioQueue = null;
             resetAudioQueue();
         }
         loading.compareAndSet(false, true);
 
         audioQueue = new Thread(() -> {
-            AudioLogger.info("Queueing song" + song.getSongName() + " for " + song.getAttachedTrigger());
+            AudioLogger.info("Queueing song " + song.getSongName() + " for " + song.getAttachedTrigger());
             queuedPlayer = new FilePlayer(minim.loadFileStream(song.getSongName()));
             queuedFadeGain = new Gain(-80);
             queuedVolumeGlide = new Glide(queuedFadeGain, 0F, 50);
@@ -460,7 +460,6 @@ public class AudioPlayer  {
         //glide.setValue(this.fadeIn * 50, maxVolume);
     }
 
-    //TODO can remove the boolean
     public void fadeOut(boolean layer) {
         if(this.isStatus(PlayerAudioStatus.FADING_OUT)) {
             AudioLogger.info("Player is fading out Already");
@@ -491,7 +490,6 @@ public class AudioPlayer  {
         }
 
         if(layer) {
-            this.song.getAttachedTrigger().setTriggerState(TriggerState.FADING_OUT);
             resetAudioQueue();
             switching = true;
             new Thread(() -> {

@@ -28,7 +28,7 @@ import ddf.minim.UGen;
  * </p>
  * <p>
  * Another abstraction the Oscil UGen makes use of is the Frequency class. 
- * This class allows you to define a frequency in terms of pitch, midi note, 
+ * This class allows you to define a frequency in terms of pitch, midi note.txt,
  * or hertz. This is often quite useful when writing musical scores with code.
  * For instance, we could use the Frequency class when creating an Oscil that 
  * will sound the same as the example above:
@@ -322,7 +322,7 @@ public class Oscil extends UGen
 
 	/**
 	 * Resets the time-step used by the Oscil to be equal to the current
-	 * phase input value. You will typically use this when starting a new note with an
+	 * phase input value. You will typically use this when starting a new note.txt with an
 	 * Oscil that you have already used so that the waveform will begin sounding
 	 * at the beginning of its period, which will typically be a zero-crossing.
 	 * In other words, use this to prevent clicks when starting Oscils that have

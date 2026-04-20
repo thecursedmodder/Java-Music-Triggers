@@ -74,7 +74,7 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	private AudioOut	synth;
 	// the signals added by the user
 	private SignalChain	signals;
-	// the note manager for this output
+	// the note.txt manager for this output
 	private NoteManager	noteManager;
 	// the Bus for UGens used by this output
 	Summer bus;
@@ -245,8 +245,8 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	}
 
 	/**
-	 * playNote is a method of scheduling a "note" to be played at 
-	 * some time in the future (or immediately), where a "note" is 
+	 * playNote is a method of scheduling a "note.txt" to be played at
+	 * some time in the future (or immediately), where a "note.txt" is
 	 * an instance of a class that implements the Instrument interface.
 	 * The Instrument interface requires you to implement a noteOn method 
 	 * that accepts a float duration value and is called when that 
@@ -258,17 +258,17 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	 * sine tone based on the parameters passed in.
 	 * <p>
 	 * To facilitate writing algorithmic music, the start time and 
-	 * duration of a note is expressed in <em>beats</em> and not in seconds. 
+	 * duration of a note.txt is expressed in <em>beats</em> and not in seconds.
 	 * By default, the tempo of an AudioOutput will be 60 BPM (beats per minute), 
 	 * which means that beats are equivalent to seconds. If you want to think 
-	 * in seconds when writing your note playing code, then simply don't change 
+	 * in seconds when writing your note.txt playing code, then simply don't change
 	 * the tempo of the output.
 	 * <p>
 	 * Another thing to keep in mind is that the AudioOutput processes its 
-	 * note queue in its own Thread, so if you are going to queue up a lot of 
+	 * note.txt queue in its own Thread, so if you are going to queue up a lot of
 	 * notes at once you will want to use the pauseNotes method before queuing
 	 * them. If you don't, the timing will be slightly off because the "now" that
-	 * the start time of each note is an offset from will change from note to note.
+	 * the start time of each note.txt is an offset from will change from note.txt to note.txt.
 	 * Once all of your notes have been added, you call resumeNotes to allow 
 	 * the AudioOutput to process notes again.
 	 * 
@@ -281,14 +281,14 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	 * 
 	 * @example Basics/SequenceSound
 	 *  
-	 * @shortdesc Schedule a "note" to played by the output. 
+	 * @shortdesc Schedule a "note.txt" to played by the output.
 	 * 
 	 * @param startTime
-	 * 			float: when the note should begin playing, in beats
+	 * 			float: when the note.txt should begin playing, in beats
 	 * @param duration
-	 * 			float: how long the note should be, in beats
+	 * 			float: how long the note.txt should be, in beats
 	 * @param instrument
-	 * 			the Instrument that will play the note
+	 * 			the Instrument that will play the note.txt
 	 */
 	public void playNote(float startTime, float duration, Instrument instrument)
 	{
@@ -296,16 +296,16 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	}
 
 	/**
-	 * Schedule a "note" to played by the output that uses the default Instrument.
+	 * Schedule a "note.txt" to played by the output that uses the default Instrument.
 	 * 
 	 * @see #playNote(float, float, Instrument)
 	 * 
 	 * @param startTime
-	 * 		float: when the note should begin playing, in beats
+	 * 		float: when the note.txt should begin playing, in beats
 	 * @param duration
-	 * 		float: how long the note should be, in beats
+	 * 		float: how long the note.txt should be, in beats
 	 * @param hz
-	 * 		float: the frequency, in Hertz, of the note to be played
+	 * 		float: the frequency, in Hertz, of the note.txt to be played
 	 */
 	public void playNote(float startTime, float duration, float hz)
 	{
@@ -313,16 +313,16 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	}
 
 	/**
-	 * Schedule a "note" to played by the output that uses the default Instrument.
+	 * Schedule a "note.txt" to played by the output that uses the default Instrument.
 	 * 
 	 * @see #playNote(float, float, Instrument)
 	 * 
 	 * @param startTime
-	 * 		float: when the note should begin playing, in beats
+	 * 		float: when the note.txt should begin playing, in beats
 	 * @param duration
-	 * 		float: how long the note should be, in beats
+	 * 		float: how long the note.txt should be, in beats
 	 * @param pitchName
-	 * 		String: the pitch name of the note to be played (e.g. "A4" or "Bb3")
+	 * 		String: the pitch name of the note.txt to be played (e.g. "A4" or "Bb3")
 	 */
 	public void playNote(float startTime, float duration, String pitchName)
 	{
@@ -330,14 +330,14 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	}
 
 	/**
-	 * Schedule a "note" to played by the output that uses the default Instrument and has a duration of 1 beat.
+	 * Schedule a "note.txt" to played by the output that uses the default Instrument and has a duration of 1 beat.
 	 * 
 	 * @see #playNote(float, float, Instrument)
 	 * 
 	 * @param startTime
-	 * 		float: when the note should begin playing, in beats
+	 * 		float: when the note.txt should begin playing, in beats
 	 * @param hz
-	 * 		float: the frequency, in Hertz, of the note to be played
+	 * 		float: the frequency, in Hertz, of the note.txt to be played
 	 */
 	public void playNote(float startTime, float hz)
 	{
@@ -345,14 +345,14 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	}
 
 	/**
-	 * Schedule a "note" to played by the output that uses the default Instrument and has a duration of 1 beat.
+	 * Schedule a "note.txt" to played by the output that uses the default Instrument and has a duration of 1 beat.
 	 * 
 	 * @see #playNote(float, float, Instrument)
 	 * 
 	 * @param startTime
-	 * 		float: when the note should begin playing, in beats
+	 * 		float: when the note.txt should begin playing, in beats
 	 * @param pitchName
-	 * 		String: the pitch name of the note to be played (e.g. "A4" or "Bb3")
+	 * 		String: the pitch name of the note.txt to be played (e.g. "A4" or "Bb3")
 	 */
 	public void playNote(float startTime, String pitchName)
 	{
@@ -360,13 +360,13 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	}
 
 	/**
-	 * Schedule a "note" to played by the output that uses the default Instrument, has a duration of 1 beat,
+	 * Schedule a "note.txt" to played by the output that uses the default Instrument, has a duration of 1 beat,
 	 * and is played immediately.
 	 * 
 	 * @see #playNote(float, float, Instrument)
 	 * 
 	 * @param hz
-	 * 		float: the frequency, in Hertz, of the note to be played
+	 * 		float: the frequency, in Hertz, of the note.txt to be played
 	 */
 	public void playNote(float hz)
 	{
@@ -374,13 +374,13 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	}
 	
 	/**
-	 * Schedule a "note" to played by the output that uses the default Instrument,
+	 * Schedule a "note.txt" to played by the output that uses the default Instrument,
 	 * has a duration of 1 beat, and is played immediately.
 	 * 
 	 * @see #playNote(float, float, Instrument)
 	 * 
 	 * @param pitchName
-	 * 		String: the pitch name of the note to be played (e.g. "A4" or "Bb3")
+	 * 		String: the pitch name of the note.txt to be played (e.g. "A4" or "Bb3")
 	 */	
 	public void playNote(String pitchName)
 	{
@@ -388,7 +388,7 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	}
 
 	/**
-	 * Schedule a "note" to played by the output that uses the default Instrument,
+	 * Schedule a "note.txt" to played by the output that uses the default Instrument,
 	 * has a duration of 1 beat, is played immediately, and has a pitch of "A4".
 	 * This is good to use if you just want to generate some test tones.
 	 * 
@@ -440,10 +440,10 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	 * music in sections, where all of the playNote calls have start times relative to
 	 * the beginning of the section. The setNoteOffset method facilitates this by
 	 * letting you set a time from which all start times passed to playNote calls 
-	 * will add on to. So, if you set the note offset to 16, that means all playNote 
+	 * will add on to. So, if you set the note.txt offset to 16, that means all playNote
 	 * start times will be relative to the 16th beat from "now".
 	 * <p>
-	 * By default, note offset is 0.
+	 * By default, note.txt offset is 0.
 	 * 
 	 * @shortdesc Sets the amount of time added to all start times passed to playNote calls.
 	 * 
@@ -460,9 +460,9 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	}
 	
 	/**
-	 * Return the current value of the note offset for this output.
+	 * Return the current value of the note.txt offset for this output.
 	 * 
-	 * @return float: the current note offset
+	 * @return float: the current note.txt offset
 	 * 
 	 * @example Basics/SequenceSound
 	 * 
@@ -475,7 +475,7 @@ public class AudioOutput extends AudioSource implements Polyphonic
 
 	/**
 	 * The duration factor of an AudioOutput defines how durations passed to playNote calls 
-	 * are scaled before being queued. If your duration factor is 0.5 and you queue a note 
+	 * are scaled before being queued. If your duration factor is 0.5 and you queue a note.txt
 	 * with a duration of 2, the actual duration will become 1. This might be useful if 
 	 * you want to queue a string of notes first with long durations and then very short durations.
 	 * <p>
@@ -506,15 +506,15 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	}
 
 	/**
-	 * An AudioOutput processes its note queue in its own Thread, 
+	 * An AudioOutput processes its note.txt queue in its own Thread,
 	 * so if you are going to queue up a lot of notes at once 
 	 * you will want to use the <code>pauseNotes</code> method before queuing
 	 * them. If you don't, the timing will be slightly off because the "now" that
-	 * the start time of each note is an offset from will change from note to note.
+	 * the start time of each note.txt is an offset from will change from note.txt to note.txt.
 	 * Once all of your notes have been added, you call <code>resumeNotes</code> to allow 
 	 * the AudioOutput to process notes again.
 	 * 
-	 * @shortdesc pause note processing
+	 * @shortdesc pause note.txt processing
 	 * 
 	 * @example Basics/SequenceSound
 	 * 
@@ -526,7 +526,7 @@ public class AudioOutput extends AudioSource implements Polyphonic
 	}
 
 	/**
-	 * Resume note processing.
+	 * Resume note.txt processing.
 	 * 
 	 * @example Basics/SequenceSound
 	 * 

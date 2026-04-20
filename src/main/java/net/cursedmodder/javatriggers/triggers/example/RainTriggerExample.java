@@ -8,7 +8,6 @@ import net.cursedmodder.javatriggers.util.debug.watch.DebugUI;
 public class RainTriggerExample extends TriggerBase {
     public RainTriggerExample() {
         super(3, 0, 100, true, 1F, 0.5F, TriggerSongs.rainSongs().toArray(new Song[0]));
-        DebugUI.watch(this.getClass(), "state", this::triggerState);
         canBeInterrupted = true;
         setPauseVolumePercentage(0);
     }

@@ -9,7 +9,6 @@ public class GeneralTriggerExample extends TriggerBase {
     public GeneralTriggerExample() {
         super(1, 0, 0, true, 1F, 0.5F, TriggerSongs.generalSongs().toArray(new Song[0]));
         canBeInterrupted = true;
-        DebugUI.watch(this.getClass(), "state", this::triggerState);
     }
 
     @Override

@@ -12,11 +12,11 @@ import ddf.minim.Minim;
 /**
  * <code>Frequency</code> is a class that represents an audio frequency. 
  * Audio frequencies are generally expressed in Hertz, but <code>Frequency</code>
- * allows you to think in terms of other representations, such as note name.
+ * allows you to think in terms of other representations, such as note.txt name.
  * 
  * This class is generally used by an <code>Oscil</code> UGen, but
  * can also be used to convert different notations of frequencies
- * such as Hz, MIDI note number, and a pitch name (English or solfege).
+ * such as Hz, MIDI note.txt number, and a pitch name (English or solfege).
  * 
  * @example Synthesis/frequencyExample
  *  
@@ -30,7 +30,7 @@ public class Frequency
 	static float MIDIOCTAVE=12.0f;
 	
 	// A TreeMap is used to force order so that later when creating the regex for
-	// the note names, an ordered list can be used.
+	// the note.txt names, an ordered list can be used.
 	private static TreeMap< String, Integer > noteNameOffsets = initializeNoteNameOffsets();
 	private static TreeMap< String, Integer > initializeNoteNameOffsets()
 	{
@@ -132,9 +132,9 @@ public class Frequency
 	}
 	
 	/**
-	 * Get the MIDI note value of this Frequency
+	 * Get the MIDI note.txt value of this Frequency
 	 * 
-	 * @return float: the MIDI note representation of this Frequency
+	 * @return float: the MIDI note.txt representation of this Frequency
 	 * 
 	 * @example Synthesis/frequencyExample
 	 * 
@@ -165,7 +165,7 @@ public class Frequency
 	}
 	
 	/**
-	 * Construct a Frequency from a MIDI note value.
+	 * Construct a Frequency from a MIDI note.txt value.
 	 * 
 	 * @param midiNote 
 	 * 			float: a value in the range [0,127]
@@ -203,7 +203,7 @@ public class Frequency
 		// trim off any white space before or after
 		pitchName = pitchName.trim();
 	
-		// check to see if this is a note		
+		// check to see if this is a note.txt
 		if ( pitchName.matches( pitchRegex ) )
 		{
 			Minim.debug(pitchName + " matches the pitchRegex.");
@@ -241,7 +241,7 @@ public class Frequency
 			}
 			Minim.debug("midiNote based on naturalness = " + midiNote );
 	
-			// get note
+			// get note.txt
 			pattern = Pattern.compile( noteNameRegex );
 			matcher = pattern.matcher( pitchName );
 			
@@ -256,7 +256,7 @@ public class Frequency
 			// return a Frequency object with this midiNote
 			return new Frequency( ofMidiNote( midiNote ).asHz() );
 					
-		} else  // string does not conform to note name syntax
+		} else  // string does not conform to note.txt name syntax
 		{
 			Minim.debug(pitchName + " DOES NOT MATCH.");			
 			// return a Frequency object of 0.0 Hz.

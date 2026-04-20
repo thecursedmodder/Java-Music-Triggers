@@ -50,7 +50,7 @@ public class ADSR extends UGen
 	private boolean isTurnedOn;
 	// the envelope has received noteOff
 	private boolean isTurnedOff;
-	// unpatch the note after it's finished
+	// unpatch the note.txt after it's finished
 	private boolean unpatchAfterRelease;
 	private AudioOutput output;
 	private UGen ugenOutput;

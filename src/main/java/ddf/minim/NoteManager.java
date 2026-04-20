@@ -27,7 +27,7 @@ public class NoteManager
 	// are we paused?
 	// pausing is important because if we're going to queue up 
 	// a large number of notes, we want to make sure their timestamps
-	// are accurate. this won't be possible if the note manager
+	// are accurate. this won't be possible if the note.txt manager
 	// is sending events because of ticks from the audio output.
 	private boolean paused;
 	

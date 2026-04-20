@@ -21,3 +21,8 @@
 -added isDayCountAtOrBeyond check
 1.0.4
 -switched the loading boolean to atomic from volatile for a major stability increase.
+
+1.0.5
+-moved trigger state monitors to the TriggerBase class. Now triggers are automatically added to the debug uiq
+-fixed continue function for songs. If a song is fading out and becomes playable it will fade back in from where it's at.
+-added isDay context check

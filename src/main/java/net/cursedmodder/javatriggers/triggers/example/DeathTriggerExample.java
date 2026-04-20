@@ -8,7 +8,7 @@ import net.cursedmodder.javatriggers.util.debug.watch.DebugUI;
 public class DeathTriggerExample extends TriggerBase {
     public DeathTriggerExample() {
         super(4, 0, 100, true, 1F, 0.4F, TriggerSongs.deathSongs().toArray(new Song[0]));
-        DebugUI.watch(this.getClass(), "state", this::triggerState);
+
         this.canForceInterrupted = true;
     }
 

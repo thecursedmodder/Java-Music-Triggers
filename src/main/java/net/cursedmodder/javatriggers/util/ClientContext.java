@@ -101,7 +101,7 @@ public class ClientContext {
         double speed = Math.sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
 
         double blockps = speed * 20;
-        return blockps <= bps;
+        return blockps >= bps;
     }
 
     public static boolean playerIsAtWorldHeight(double height) {
@@ -190,6 +190,14 @@ public class ClientContext {
         Level level = mc.level;
         if (level != null) {
             return getTimeInDay(level) >= 13000 && getTimeInDay(level) <= 23000;
+        }
+        return false;
+    }
+
+    public static boolean isDay() {
+        Level level = mc.level;
+        if (level != null) {
+            return getTimeInDay(level) >= 23000 && getTimeInDay(level) <= 13000;
         }
         return false;
     }

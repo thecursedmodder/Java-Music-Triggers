@@ -29,12 +29,12 @@ public class DefaultInstrument implements Instrument
 	private LowPassSP lpFilter;
 		 
 	/**
-	 * Construct a default instrument that will play a note at the given frequency on the given output.
+	 * Construct a default instrument that will play a note.txt at the given frequency on the given output.
 	 * 
 	 * @param frequency 
-	 * 			float: the frequency of the note
+	 * 			float: the frequency of the note.txt
 	 * @param output 
-	 * 			AudioOutput: the output to play the note on when noteOn is called
+	 * 			AudioOutput: the output to play the note.txt on when noteOn is called
 	 */
 	public DefaultInstrument( float frequency, AudioOutput output )
 	{
@@ -59,12 +59,12 @@ public class DefaultInstrument implements Instrument
 	 * Turn on the default instrument.
 	 * Typically, you will not call this directly.
 	 * It will be called at the appropriate time by 
-	 * the AudioOuput you schedule a note with.
+	 * the AudioOuput you schedule a note.txt with.
 	 * 
 	 * @shortdesc Turn on the default instrument.
 	 * 
 	 * @param dur
-	 * 			float: The duration of the note, in seconds.
+	 * 			float: The duration of the note.txt, in seconds.
 	 * 
 	 * @related DefaultInstrument
 	 */
@@ -83,7 +83,7 @@ public class DefaultInstrument implements Instrument
 	 * 
 	 * Typically, you will not call this directly.
 	 * It will be called at the appropriate time by 
-	 * the AudioOuput you schedule a note with.
+	 * the AudioOuput you schedule a note.txt with.
 	 * 
 	 * @shortdesc Turn off the default instrument.
 	 * 

@@ -155,7 +155,8 @@ public class FoundationTriggerHandler {
     }
 
     private static boolean isLowerPriority(TriggerBase trigger) {
-        return trigger != null && trigger.getPriority() <= currentTrigger.getPriority();
+        if(trigger == null) return true;
+        return trigger.getPriority() <= currentTrigger.getPriority();
     }
 
     private static void setSong(Channel channel, Song song, TriggerBase trigger) {
