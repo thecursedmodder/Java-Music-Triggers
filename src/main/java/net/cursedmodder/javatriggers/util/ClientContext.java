@@ -8,9 +8,11 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
@@ -35,7 +37,8 @@ public class ClientContext {
 
     public static boolean canSeeSky() {
         Player player = mc.player;
-        return player != null && player.level().canSeeSky(player.getOnPos());
+        if(player == null) return false;
+        return player.level().canSeeSky(player.blockPosition().offset(0, 1, 0));
     }
 
     public static boolean isArmorAtOrBeyond(int armorLevel) {
@@ -182,6 +185,19 @@ public class ClientContext {
                     .getKey(biome.value());
             if(biomeName == null) return false;
             return biomeName.toString().equals(biomeId);
+        }
+        return false;
+    }
+
+    public boolean isFullMoon() {
+        return isMoonPhase(8);
+    }
+
+    //Accepts 1-8. 1 being a new moon and 8 being a full moon
+    public boolean isMoonPhase(int phase) {
+        Level level = mc.level;
+        if (level != null) {
+            return level.getMoonPhase() == phase;
         }
         return false;
     }

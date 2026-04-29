@@ -1,5 +1,7 @@
 package net.cursedmodder.javatriggers.triggers.songs.layer;
 
+import ddf.minim.UGen;
+import net.cursedmodder.javatriggers.audio.manager.AudioLayer;
 import net.cursedmodder.javatriggers.triggers.songs.Song;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -13,10 +15,19 @@ public class LayerCondition {
     public int fadeOut;
     private ConditionInterface condition;
     protected Song song;
+    private AudioLayer layer;
 
     public LayerCondition(String mainSong, String extension, int number) {
         this.mainSong = mainSong + "_layer" + number + extension;
         this.ID = number;
+    }
+    //TODO make this more user friendly
+    public void setAudioLayer(AudioLayer layer) {
+        this.layer = layer;
+    }
+
+    public AudioLayer audioLayerPlayer() {
+        return layer;
     }
 
     public LayerCondition(String mainSong, int number, int fadeIn, int fadeOut) {

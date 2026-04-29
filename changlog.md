@@ -23,6 +23,8 @@
 -switched the loading boolean to atomic from volatile for a major stability increase.
 
 1.0.5
--moved trigger state monitors to the TriggerBase class. Now triggers are automatically added to the debug uiq
+-moved trigger state monitors to the TriggerBase class. Now triggers are automatically added to the debug window
 -fixed continue function for songs. If a song is fading out and becomes playable it will fade back in from where it's at.
+-fixed triggers with multiple songs crashing when a song ends.
 -added isDay context check
+-added isFullMoon and isMoonPhase context check.

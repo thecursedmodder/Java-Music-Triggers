@@ -24,11 +24,10 @@ public class AudioLayer {
     private int layerNumber;
 
     Minim minim;
-    private FilePlayer filePlayer;
+    public FilePlayer filePlayer;
     private LayerCondition condition;
     private Gain gain;
     private Glide glide;
-    private AudioOutput output;
     private Summer summer;
     public LowPassFS lpf;
 
@@ -40,7 +39,6 @@ public class AudioLayer {
         this.filePlayer = new FilePlayer(minim.loadFileStream(condition.mainSong));
         this.gain = new Gain(-80);
         this.glide = new Glide(gain, 0f, 50);
-        this.output = player.getOutput();
         this.summer = player.getAudioMixer();
         this.condition = condition;
         this.lpf = lpf;
