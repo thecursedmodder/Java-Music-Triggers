@@ -64,7 +64,6 @@ public class FoundationTriggerHandler {
         TriggerBase trigger = selectBestPlayableTrigger(list);
         if (trigger != null) {
             if (trigger.isTriggerState(TriggerState.IDLE) && trigger.canPlay() && !trigger.is(currentTrigger)) {
-                Song = trigger.getSong();
                 if (!isCurrentTriggerInterruptible(trigger)) return;
 
                 trigger.setTriggerState(TriggerState.QUEUED);
@@ -80,8 +79,7 @@ public class FoundationTriggerHandler {
                         if (trigger.timeTillActivationCounter++ >= trigger.timeTillActive()) {
                             if (currentTrigger == null || currentTrigger.canBeInterrupted()) {
                                 currentTrigger.tillDeactivationCounter = 0;
-                                trigger.setTriggerState(TriggerState.LOADED);
-                                setSong(channel1, Song, trigger);
+                                setSong(channel1, trigger);
                                 trigger.timeTillActivationCounter = 0;
                             }
                         }
@@ -89,8 +87,7 @@ public class FoundationTriggerHandler {
                 } else {
                     if (trigger.timeTillActivationCounter++ >= trigger.timeTillActive()) {
                         if (currentTrigger == null || currentTrigger.canBeInterrupted()) {
-                            trigger.setTriggerState(TriggerState.LOADED);
-                            setSong(channel1, Song, trigger);
+                            setSong(channel1, trigger);
                             trigger.timeTillActivationCounter = 0;
                         }
                     }
@@ -103,10 +100,14 @@ public class FoundationTriggerHandler {
                 if (channel1.audioPlayer.getSong() == null) {
                     return;
                 }
+
+                //
                 if (currentTrigger.canPlay() && !channel1.audioPlayer.isPaused())
-                    if (!channel1.audioPlayer.isPlaying() && currentTrigger.canPlay() && channel1.audioPlayer.getSong().playOnce <= 0) {
-                        channel1.setAudio(currentTrigger.getSong());
+                    if (!channel1.audioPlayer.isPlaying()) {
+                        setSong(channel1, currentTrigger);
                     }
+
+                //Fade-out if current trigger cannot play and there is no replacement.
                 if (!currentTrigger.canPlay()) {
                     if (currentTrigger != null) {
                         if (currentTrigger.tillDeactivationCounter++ >= currentTrigger.getTimeTillDeactivate()) {
@@ -119,7 +120,7 @@ public class FoundationTriggerHandler {
                 }
             }
 
-
+            //Continue a fading out song if the trigger is playable again
             if (currentTrigger.isTriggerState(TriggerState.FADING_OUT)) {
                 if (currentTrigger.canPlay() && isLowerPriority(trigger) || trigger != null && !trigger.canPlay()) {
                     channel1.continueSong(channel1.audioPlayer.getSong());
@@ -154,13 +155,17 @@ public class FoundationTriggerHandler {
 
     }
 
+    //TODO you are currently testing if the song switcher works now
     private static boolean isLowerPriority(TriggerBase trigger) {
         if(trigger == null) return true;
         return trigger.getPriority() <= currentTrigger.getPriority();
     }
 
-    private static void setSong(Channel channel, Song song, TriggerBase trigger) {
-        channel.setAudio(song, trigger);
+    private static void setSong(Channel channel, TriggerBase trigger) {
+        Song = trigger.getSong();
+        if(Song == null) return;
+        trigger.setTriggerState(TriggerState.LOADED);
+        channel.setAudio(Song, trigger);
     }
 
     private static boolean isCurrentTriggerInterruptible(TriggerBase base) {
