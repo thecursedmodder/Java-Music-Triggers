@@ -2,6 +2,7 @@ package net.cursedmodder.javatriggers.network;
 
 import net.cursedmodder.javatriggers.JavaTriggers;
 import net.cursedmodder.javatriggers.network.packets.MobTargetingReturn;
+import net.cursedmodder.javatriggers.network.packets.SpawnPosition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -32,6 +33,11 @@ public class TriggerMessages {
                 .decoder(MobTargetingReturn::new)
                 .encoder(MobTargetingReturn::ToBytes)
                 .consumerMainThread(MobTargetingReturn::handle)
+                .add();
+        net.messageBuilder(SpawnPosition.class, id(), NetworkDirection.PLAY_TO_CLIENT)
+                .decoder(SpawnPosition::new)
+                .encoder(SpawnPosition::ToBytes)
+                .consumerMainThread(SpawnPosition::handle)
                 .add();
     }
 

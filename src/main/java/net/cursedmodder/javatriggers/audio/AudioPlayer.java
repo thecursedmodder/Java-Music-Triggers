@@ -108,7 +108,7 @@ public class AudioPlayer  {
             playFadeIn();
         }
     }
-
+   //TODO this has issues with song's that have no fade-in
     public void changeToNextSong(boolean fade, Song song) {
         if(switching && song != queuedSong) {
             if(isCancelable) {
@@ -126,43 +126,51 @@ public class AudioPlayer  {
                 this.fadeOut(false);
             }
             new Thread(() -> {
-                    while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading.get() || this.song != null && this.song.mustFinish() && this.isPlaying()) {
-                        //System.out.println("Spinning");
-                        if(cancel) break;
-                        Thread.onSpinWait();
-                    }
+                while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading.get() || this.song != null && this.song.mustFinish() && this.isPlaying()) {
+                    //System.out.println("Spinning");
+                    if (cancel) break;
+                    Thread.onSpinWait();
+                }
 
-                    isCancelable = false;
-                    if(cancel) {
-                        switching = false;
-                        cancel = false;
-                        return;
-                    }
+                isCancelable = false;
+                if (cancel) {
+                    switching = false;
+                    cancel = false;
+                    return;
+                }
+
+                if (FoundationTriggerHandler.currentTrigger != null)
+                    FoundationTriggerHandler.currentTrigger.TriggerEnd();
+
                 FoundationTriggerHandler.currentTrigger = queuedSong.getAttachedTrigger();
-                    if(this.player != null) this.player.pause();
-                if(this.song != null) {
+                if (this.player != null) this.player.pause();
+                if (this.song != null) {
                     this.song.getAttachedTrigger().setTriggerState(TriggerState.IDLE);
                     this.song.hasPlayed = true;
                 }
                 this.player = queuedPlayer;
-                    Minecraft.getInstance().execute(() -> {
+                if (this.player == null) {
+                    resetQueueAll();
+                    return;
+                }
+                Minecraft.getInstance().execute(() -> {
 
-                        this.setSong(queuedSong);
-                        this.lpf = new LowPassFS(20000, sampleRate);
-                        this.gain = queuedFadeGain;
-                        this.glide = queuedVolumeGlide;
-                        player.patch(gain).patch(lpf).patch(summer);
-                        AudioLogger.info("Fading in " + song.getSongName());
-                        song.getAttachedTrigger().setTriggerState(TriggerState.PLAYING);
-                        if(song instanceof LayeredSong) {
-                            this.layers = queuedLayers;
-                            this.layers.forEach(AudioLayer::sync);
-                            this.layers.forEach(AudioLayer::silentPlay);
-                        }
-                       // if(!song.playOnce) player.loop();
-                        playFadeIn();
-                        resetQueue();
-                    });
+                    this.setSong(queuedSong);
+                    this.lpf = new LowPassFS(20000, sampleRate);
+                    this.gain = queuedFadeGain;
+                    this.glide = queuedVolumeGlide;
+                    player.patch(gain).patch(lpf).patch(summer);
+                    AudioLogger.info("Fading in " + song.getSongName());
+                    song.getAttachedTrigger().setTriggerState(TriggerState.PLAYING);
+                    if (song instanceof LayeredSong) {
+                        this.layers = queuedLayers;
+                        this.layers.forEach(AudioLayer::sync);
+                        this.layers.forEach(AudioLayer::silentPlay);
+                    }
+                    // if(!song.playOnce) player.loop();
+                    playFadeIn();
+                    resetQueue();
+                });
             }, "Audio_Switcher").start();
         } else {
             preloadNextSong(song);
@@ -189,6 +197,10 @@ public class AudioPlayer  {
                     this.song.hasPlayed = true;
                 }
                 this.player = queuedPlayer;
+                if (this.player == null) {
+                    resetQueueAll();
+                    return;
+                }
                 Minecraft.getInstance().execute(() -> {
                     this.setSong(queuedSong);
                     this.lpf = new LowPassFS(20000, sampleRate);

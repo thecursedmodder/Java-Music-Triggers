@@ -15,6 +15,7 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
     protected int priority;
     protected int timeTillActive = 0; //Adds time before the trigger can play
     protected int timeTillDeactivate = 0;
+    protected int timeTillCanPlayAgain = 0; //Make sure certain songs can't repeatedly cycle
     protected boolean underWaterEffect = true;
     public float baseVolume = 1F; //Uh Useless?
     protected boolean canForceInterrupted = false; //Allows the trigger to interrupt any songs with a lesser priority;
@@ -22,6 +23,7 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
     protected int lowPassAmount = 1500; //Default
     public int tillDeactivationCounter;
     public int timeTillActivationCounter;
+    private int getTimeTillCanPlayAgainCounter;
     private float pauseVolumePercentage = 0.5F;
     public boolean playInBackGround = false;
     //End
@@ -34,7 +36,7 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
         timeTillDeactivate = TimeTillDeactivate;
         baseVolume = baseVol;
         pauseVolumePercentage = pauseVol;
-        DebugUI.watch(this.getClass(), "state", this::triggerState);
+        DebugUI.watch(this.getName(), "state", this::triggerState);
         registerSongs(songs);
     }
 
@@ -58,6 +60,12 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
 
     public String getName() {
         return this.getClass().getSimpleName();
+    }
+
+    public void tick() {
+        if(getTimeTillCanPlayAgainCounter > 0) {
+            getTimeTillCanPlayAgainCounter--;
+        }
     }
 
     public void registerSongs(Song... songs) {
@@ -91,6 +99,10 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
         return song;
     }
 
+    public void TriggerEnd() {
+        getTimeTillCanPlayAgainCounter = timeTillCanPlayAgain;
+    }
+
     public float PauseVolume() {
         //0.001f or below is paused
         return pauseVolumePercentage;
@@ -110,7 +122,7 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
     }
 
     public boolean canPlay() {
-        return getSong() != null;
+        return getSong() != null && getTimeTillCanPlayAgainCounter <= 0;
     }
 
     public boolean canBeInterrupted() {

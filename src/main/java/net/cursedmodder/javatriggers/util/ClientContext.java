@@ -1,6 +1,7 @@
 package net.cursedmodder.javatriggers.util;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -20,6 +21,7 @@ import java.util.List;
 
 public class ClientContext {
     private static final Minecraft mc = Minecraft.getInstance();
+    public static BlockPos playerSpawn;
     /* Client context that can be used in your triggers or other in other parts of your mod.
       Additionally, you won't have to worry about null values crashing the game. That's the point of the context.
      */
@@ -94,6 +96,12 @@ public class ClientContext {
         Player player = mc.player;
         if(player == null) return false;
         return player.onClimbable();
+    }
+    //Your spawn is your home
+    public static boolean isHome(double maxDistanceFromSpawn) {
+        Player player = Minecraft.getInstance().player;
+        if(player == null || playerSpawn == null) return false;
+        return player.distanceToSqr(playerSpawn.getCenter()) <= maxDistanceFromSpawn * maxDistanceFromSpawn;
     }
 
     public static boolean isSpeedAtOrBeyond(double bps) {
@@ -205,17 +213,36 @@ public class ClientContext {
     public static boolean isNight() {
         Level level = mc.level;
         if (level != null) {
-            return getTimeInDay(level) >= 13000 && getTimeInDay(level) <= 23000;
+            return getTimeInDay(level) >= 13000 && getTimeInDay(level) <= 22500;
         }
         return false;
     }
 
     public static boolean isDay() {
         Level level = mc.level;
-        if (level != null) {
-            return getTimeInDay(level) >= 23000 && getTimeInDay(level) <= 13000;
+        if (level == null) {
+            return false;
+        } else {
+            return getTimeInDay(level) >= 0 && getTimeInDay(level) <= 12500;
         }
-        return false;
+    }
+
+    public static boolean isDawn() {
+        Level level = mc.level;
+        if (level == null) {
+            return false;
+        } else {
+            return getTimeInDay(level) >= 22500 && getTimeInDay(level) <= 24000;
+        }
+    }
+
+    public static boolean isDusk() {
+        Level level = mc.level;
+        if (level == null) {
+            return false;
+        } else {
+            return getTimeInDay(level) >= 12000 && getTimeInDay(level) <= 13000;
+        }
     }
 
     private static int getTimeInDay(Level level){

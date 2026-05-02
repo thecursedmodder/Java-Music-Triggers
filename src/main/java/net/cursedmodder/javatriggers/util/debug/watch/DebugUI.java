@@ -1,6 +1,7 @@
 package net.cursedmodder.javatriggers.util.debug.watch;
 
 import net.cursedmodder.javatriggers.JavaTriggers;
+import net.cursedmodder.javatriggers.triggers.base.TriggerBase;
 
 import java.awt.*;
 import java.util.function.Supplier;
@@ -11,16 +12,18 @@ public class DebugUI {
     public static void init() {
         if (WINDOW != null) return;
 
-        // Prevent crash in headless environments
         if (GraphicsEnvironment.isHeadless()) {
             System.out.println("Debug UI disabled: Headless environment");
-            return;
+        } else {
+            System.setProperty("java.awt.headless", "false");
+            WINDOW = new DebugWindow();
         }
 
-        // Ensure AWT is enabled
-        System.setProperty("java.awt.headless", "false");
+    }
 
-        WINDOW = new DebugWindow();
+    public static void addTrigger(TriggerBase triggerBase) {
+        watch(triggerBase.getName(), "state", triggerBase::triggerState);
+        watch(triggerBase.getName(), "status", triggerBase::triggerState);
     }
 
     private static void ensureInit() {

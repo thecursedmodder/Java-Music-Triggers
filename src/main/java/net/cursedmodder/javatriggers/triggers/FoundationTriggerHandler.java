@@ -59,6 +59,7 @@ public class FoundationTriggerHandler {
     public static void tick() {
         //Compare priorities
         channel1.tick();
+        list.forEach(TriggerBase::tick);
         tickCount++;
         if (tickCount % Config.TPS.get() != 0) return;
         TriggerBase trigger = selectBestPlayableTrigger(list);
@@ -108,7 +109,7 @@ public class FoundationTriggerHandler {
                     }
 
                 //Fade-out if current trigger cannot play and there is no replacement.
-                if (!currentTrigger.canPlay()) {
+                if (!currentTrigger.canPlay() && queuedTrigger == null) {
                     if (currentTrigger != null) {
                         if (currentTrigger.tillDeactivationCounter++ >= currentTrigger.getTimeTillDeactivate()) {
                             if (currentTrigger == null || currentTrigger.canBeInterrupted()) {
@@ -155,7 +156,6 @@ public class FoundationTriggerHandler {
 
     }
 
-    //TODO you are currently testing if the song switcher works now
     private static boolean isLowerPriority(TriggerBase trigger) {
         if(trigger == null) return true;
         return trigger.getPriority() <= currentTrigger.getPriority();
