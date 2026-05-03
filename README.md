@@ -25,10 +25,14 @@ Pause Volume: You can have the volume change depending on whether it is paused.
 
 Song Start Time: Each song can have different start times, which can also be adjusted dynamically, like most of the values.
 
-File Support: Currently, it supports MP3 and WAV at 44.1khz. I recommend downloading Audacity for converting to the correct format. 
+File Support: Currently, it supports MP3 and WAV at 44.1khz. I recommend downloading Audacity for converting to the correct format, or even better, https://vert.sh; its done locally and makes this process easy.
 
 
-Getting started, Experienced Users:
+Getting started, Modpack developers:
+The wiki has all you should need [wiki](https://github.com/thecursedmodder/Java-Music-Triggers/wiki). If something is missing please let me know in the form of an issue or on discord.
+
+
+Getting started, Experienced Codders:
 
 You're going to want to use [cursemaven](https://www.cursemaven.com). Follow the instructions for adding the repository.
 Navigate to Curseforge for [JMC](https://www.curseforge.com/minecraft/mc-mods/java-music-triggers/files/all?page=1&pageSize=20&showAlphaFiles=show). Select the latest version of JMC 
