@@ -31,6 +31,7 @@ Getting started, Modpack developers:
 The wiki has all you should need [wiki](https://github.com/thecursedmodder/Java-Music-Triggers/wiki). If something is missing please let me know in the form of an issue or on discord.
 
 
+
 Getting started, Experienced Codders:
 
 You're going to want to use [cursemaven](https://www.cursemaven.com). Follow the instructions for adding the repository.
