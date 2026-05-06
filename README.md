@@ -28,7 +28,7 @@ File Support: Currently, it supports MP3 and WAV at 44.1khz. I recommend downloa
 
 Getting started, Modpack developers:
 
-The wiki has all you should need [wiki](https://github.com/thecursedmodder/Java-Music-Triggers/wiki). If something is missing please let me know in the form of an issue or on discord.
+The [wiki](https://github.com/thecursedmodder/Java-Music-Triggers/wiki) has all you should need . If something is missing please let me know in the form of an issue or on discord.
 
 
 
