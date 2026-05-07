@@ -109,7 +109,7 @@ public class FoundationTriggerHandler {
                     }
 
                 //Fade-out if current trigger cannot play and there is no replacement.
-                if (!currentTrigger.canPlay() && queuedTrigger == null) {
+                if (!currentTrigger.canPlay() && queuedTrigger == null && channel1.audioPlayer.isPlaying()) {
                     if (currentTrigger != null) {
                         if (currentTrigger.tillDeactivationCounter++ >= currentTrigger.getTimeTillDeactivate()) {
                             if (currentTrigger == null || currentTrigger.canBeInterrupted()) {
@@ -136,7 +136,7 @@ public class FoundationTriggerHandler {
     }
 
     private static void audioSettingTick(Minecraft mc) {
-        if (channel1.audioPlayer != null && channel1.getSong() != null && !channel1.audioPlayer.isStatus(PlayerAudioStatus.FADING)) {
+        if (channel1.audioPlayer != null && channel1.getSong() != null) {
             if (mc.isPaused()) {
                 float pauseVolume = channel1.getSong().getAttachedTrigger().getPauseVolumePercentage();
                 if (pauseVolume > 0) {
@@ -146,10 +146,10 @@ public class FoundationTriggerHandler {
                     channel1.audioPlayer.pause(2);
                 }
             } else {
-                if (channel1.getSong().getAttachedTrigger().playInBackGround && !Minecraft.getInstance().isWindowActive()) {
+                if (!channel1.getSong().getAttachedTrigger().playInBackGround && !Minecraft.getInstance().isWindowActive()) {
                     channel1.audioPlayer.pause(2);
                 } else channel1.audioPlayer.play();
-                masterVolume = mc.options.getSoundSourceVolume(SoundSource.MUSIC) * mc.options.getSoundSourceVolume(SoundSource.MASTER);
+                masterVolume = channel1.getSong().getVolume() * mc.options.getSoundSourceVolume(SoundSource.MUSIC) * mc.options.getSoundSourceVolume(SoundSource.MASTER);
             }
 
         }

@@ -55,6 +55,7 @@ public class AudioPlayer  {
     public int fadeIn;
     public int fadeOut;
     private volatile PlayerAudioStatus audioStatus;
+    private float lastVolumeChange;
     public boolean fading;
     private float maxVolume = 1F;
     public Channel channel;
@@ -67,7 +68,7 @@ public class AudioPlayer  {
     public AudioPlayer(int id) {
         minim = new Minim(new MinimHelper(this));
         JavaTriggers.players.add(this);
-        output = minim.getLineOut(Minim.STEREO, 4096);
+        output = minim.getLineOut(Minim.STEREO, 6144);
         masterGlider = new GlideOutput(output, 1F, 100);
         summer = new Summer();
         summer.patch(output);
@@ -83,9 +84,6 @@ public class AudioPlayer  {
         DebugUI.watch(this.getClass().getSimpleName(), "isPlayerPlaying", () -> player.isPlaying());
         ID = id;
     }
-
-    private float lastVolumeChange;
-
 
     public float getVolume() { return FoundationTriggerHandler.masterVolume; }
 
@@ -125,6 +123,7 @@ public class AudioPlayer  {
             if(this.song != null && !this.song.mustFinish()) {
                 this.fadeOut(false);
             }
+
             new Thread(() -> {
                 while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading.get() || this.song != null && this.song.mustFinish() && this.isPlaying()) {
                     //System.out.println("Spinning");
@@ -148,6 +147,9 @@ public class AudioPlayer  {
                     this.song.getAttachedTrigger().setTriggerState(TriggerState.IDLE);
                     this.song.hasPlayed = true;
                 }
+                if(minim != null && player != null) {
+                    player.close();
+                }
                 this.player = queuedPlayer;
                 if (this.player == null) {
                     resetQueueAll();
@@ -157,11 +159,15 @@ public class AudioPlayer  {
 
                     this.setSong(queuedSong);
                     this.lpf = new LowPassFS(20000, sampleRate);
+                    if(this.glide != null) this.glide.discard();
                     this.gain = queuedFadeGain;
                     this.glide = queuedVolumeGlide;
                     player.patch(gain).patch(lpf).patch(summer);
                     AudioLogger.info("Fading in " + song.getSongName());
                     song.getAttachedTrigger().setTriggerState(TriggerState.PLAYING);
+                    if(!layers.isEmpty()) {
+                        layers.forEach(AudioLayer::discard);
+                    }
                     if (song instanceof LayeredSong) {
                         this.layers = queuedLayers;
                         this.layers.forEach(AudioLayer::sync);
@@ -249,7 +255,15 @@ public class AudioPlayer  {
     }
 
     public void setSong(Song song) {
+        if(this.song != null && this.song.playFromLastPosition) {
+            this.song.isPlaying = false;
+            if((double) this.song.readPosition() / player.position() <= 0.97) {
+                this.song.setPosition(player.position());
+            } else this.song.setPosition(song.startTime);
+        }
+
         if(song != null) {
+            song.isPlaying = true;
             fadeIn = song.getFadeIn();
             fadeOut = song.getFadeOut();
             maxVolume = song.getVolume();
@@ -259,11 +273,13 @@ public class AudioPlayer  {
     private Thread audioQueue;
     public void preloadNextSong(Song song) {
         queuedSong = song;
-        if(this.loading.get() || queuedPlayer != null) {
-            audioQueue.interrupt();
-            loading.compareAndSet(false, true); //Should fix thread de sync
-            audioQueue = null;
-            resetAudioQueue();
+        if(audioQueue != null) {
+            if (this.loading.get() || queuedPlayer != null) {
+                audioQueue.interrupt();
+                loading.compareAndSet(false, true); //Should fix thread de sync
+                audioQueue = null;
+                resetAudioQueue();
+            }
         }
         loading.compareAndSet(false, true);
 
@@ -310,6 +326,7 @@ public class AudioPlayer  {
             if (isPaused()) {
                 AudioLogger.info("Resuming Player!");
                 paused = false;
+                lastVolumeChange = 0;
                 player.play();
                 this.layers.forEach(AudioLayer::silentPlay);
             } else if (!player.isPlaying()) {
@@ -324,6 +341,7 @@ public class AudioPlayer  {
 
     public void pause(int loggingID) {
         if(player != null) {
+            player.pause();
             paused = true;
             switch (loggingID) {
                case 1 -> AudioLogger.info("Pausing player for layer");
@@ -400,7 +418,7 @@ public class AudioPlayer  {
             }
         }
 
-        if(paused) {
+        if(paused && song != null) {
             tickCount++;
             masterGlider.setValue(1000, 0);
             if(tickCount == 20 && song.getAttachedTrigger().PauseVolume() <= 0.001f) {
@@ -452,7 +470,9 @@ public class AudioPlayer  {
 
 
     public void playFadeIn() {
-        playAt(song.startTime);
+        if(!song.playFromLastPosition) {
+            playAt(song.startTime);
+        } else playAt(song.readPosition());
         this.setAudioStatus(PlayerAudioStatus.FADING_IN);
         if(!glide.fading()) {
             fadeTime = fadeIn + 10;
@@ -466,10 +486,7 @@ public class AudioPlayer  {
 
             glide.setValue(remainingTime, maxVolume);
 
-
-           // glide.setValue();
         }
-        //glide.setValue(this.fadeIn * 50, maxVolume);
     }
 
     public void fadeOut(boolean layer) {
@@ -493,7 +510,7 @@ public class AudioPlayer  {
             this.layers.forEach(AudioLayer::fadeOut);
         } else {
             float current = glide.getValue();     // current volume
-            float progress = 1 - (current / maxVolume);  // 0 → 1
+            float progress = maxVolume - (current / maxVolume);  // 0 → 1
 
             int remainingTime = (int) (fadeIn * progress * 50);
 
@@ -515,6 +532,7 @@ public class AudioPlayer  {
                 FoundationTriggerHandler.currentTrigger = null;
                 setSong(null);
                 this.setAudioStatus(PlayerAudioStatus.IDLE);
+                this.song.isPlaying = false;
                 switching = false;
                 player.close();
                 player = null;

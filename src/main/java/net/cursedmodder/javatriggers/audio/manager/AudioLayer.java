@@ -81,6 +81,11 @@ public class AudioLayer {
         filePlayer.play();
     }
 
+    public void discard() {
+        filePlayer.close();
+        glide.discard();
+    }
+
     public int getLayerNumber() {
         return layerNumber;
     }

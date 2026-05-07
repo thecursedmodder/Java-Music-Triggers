@@ -28,6 +28,11 @@ public class JavaTriggers {
     public static final Logger LOGGER = LogUtils.getLogger();
     public static boolean TriggerDebugScreen = false; //If enabled, it will pop up a separate window with realTime information on variables.
     public static Class origin = JavaTriggers.class;
+
+    public static void enableDebugScreen() {
+        TriggerDebugScreen = true;
+    }
+
     public JavaTriggers() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLogger.setupCustomLogger(MODID);

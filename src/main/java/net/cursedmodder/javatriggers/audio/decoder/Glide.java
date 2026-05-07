@@ -16,6 +16,7 @@ public class Glide {
     private int countSinceGlide;
     private boolean gliding;
     private boolean nothingChanged;
+    private volatile boolean discarded;
 
     public Glide(Gain gain, float initialValue, int glideTime) {
         this.gain = gain;
@@ -50,7 +51,7 @@ public class Glide {
 
     private void startLoop() {
         new Thread(() -> {
-            while (true) {
+            while (!discarded) {
                 try {
                     Thread.sleep(10);
 
@@ -82,7 +83,7 @@ public class Glide {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        }, "Auto_Glide").start();
     }
 
     // Optional: instant change
@@ -117,5 +118,9 @@ public class Glide {
 
     public void silentSet(float volume) {
         this.targetValue = Math.max(0.0f, Math.min(1.0f, volume));
+    }
+
+    public void discard() {
+        discarded = true;
     }
 }

@@ -9,6 +9,7 @@
 
 1.0.3
 -integrated the canSongPlay boolean into the getSong function for advanced users.
+
 --Context Updates--
 -added speedIsAtOrBeyond check
 -added worldHeight check
@@ -38,4 +39,14 @@
 -split up day and night context into 4
 -added dawn, day, dusk, and night checks
 -added home check
--added biome check (This might be in the last update idk)
+-added biome check (This might be in the last update idk)`
+
+1.1.1
+-added method for enabling debugScreen
+-added continue from for songs, and a reset timer for it.
+-added isPlaying boolean to Song class.
+-fixed memory leak from audioPlayers not closing correctly
+-fixed audio fading-out and not fading-back when tabbing out.
+-fixed screen out of focus audio pause (This actually fix a few other reliability issues)
+
+

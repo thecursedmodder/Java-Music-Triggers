@@ -6,11 +6,13 @@ import net.cursedmodder.javatriggers.util.debug.AudioLogger;
 import net.cursedmodder.javatriggers.util.debug.watch.DebugUI;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public abstract class TriggerBase implements Comparable<TriggerBase> {
     private TriggerState state = TriggerState.IDLE;
+    private final List<Song> songs = new ArrayList<>();
     //Your changeable variables
     protected int priority;
     protected int timeTillActive = 0; //Adds time before the trigger can play
@@ -62,7 +64,12 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
         return this.getClass().getSimpleName();
     }
 
+    public void addSong(Song song) {
+        songs.add(song);
+    }
+
     public void tick() {
+        songs.forEach(Song::tick);
         if(getTimeTillCanPlayAgainCounter > 0) {
             getTimeTillCanPlayAgainCounter--;
         }
