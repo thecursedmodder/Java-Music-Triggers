@@ -45,8 +45,10 @@
 -added method for enabling debugScreen
 -added continue from for songs, and a reset timer for it.
 -added isPlaying boolean to Song class.
+-added a new fading engine(It's not implemented yet, but it shows potential, having perfect fades with no popping)
 -fixed memory leak from audioPlayers not closing correctly
 -fixed audio fading-out and not fading-back when tabbing out.
 -fixed screen out of focus audio pause (This actually fix a few other reliability issues)
+-increased the buffer size for the audio output (this adds more latency to the underwater effect, but makes stutters disappear for the most part)
 
 
