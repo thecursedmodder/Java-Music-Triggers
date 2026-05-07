@@ -38,6 +38,19 @@ public class Glide extends UGen {
         target.setLastValue(newTarget);
     }
 
+    public void setImmediate(float value) {
+        currentValue = value;
+        target.setLastValue(value);
+    }
+
+    public boolean fadingIn() {
+        return this.target.getLastValue() > currentValue;
+    }
+
+    public boolean fadingOut() {
+        return  this.target.getLastValue() < currentValue;
+    }
+
     public void setGlideTime(float newTime) {
         time.setLastValue(Math.max(0.001f, newTime)); // avoid zero/negative
     }
