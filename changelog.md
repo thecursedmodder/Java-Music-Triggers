@@ -51,4 +51,22 @@
 -fixed screen out of focus audio pause (This actually fix a few other reliability issues)
 -increased the buffer size for the audio output (this adds more latency to the underwater effect, but makes stutters disappear for the most part)
 
+1.1.2
+-fixed small bugs.
+-changed logs to have less spam and be more useful for debugging
+-removed a line that sets a thread variable null. This might fix some cancellation issues?
+-fixed continue from feature
+
+1.2.0
+-Changed out the glide function for buttery smooth glides! (This took far long than I thought it would >:\)
+-Dropped back down to 4096 for hardware audio buffer. It seems to stutter more in certain conditions past that.
+
+--Trigger Updates--
+Enhanced the extendable mob trigger
+
+--Context Updates--
+-Added a Tag Biomes check
+-Added a isMobTypeNearby
+-Added more customizable time check (isBetweenTimeFrame)
+
 
