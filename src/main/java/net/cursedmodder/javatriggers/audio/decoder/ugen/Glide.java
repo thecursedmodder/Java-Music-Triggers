@@ -1,6 +1,7 @@
 package net.cursedmodder.javatriggers.audio.decoder.ugen;
 
 import ddf.minim.UGen;
+import ddf.minim.ugens.Gain;
 
 import java.util.Arrays;
 
@@ -15,8 +16,22 @@ public class Glide extends UGen {
     private float currentValue;
     private float oneOverSampleRate;
     private float prevTime; // to avoid recalculating unnecessarily
+    private float lastTime;
 
     public Glide(float initialValue, float glideTime) {
+        super();
+        initialValue = (initialValue <= 0.0001f) ? -80f : (float) (20 * Math.log10(initialValue));
+        target = new UGenInput(InputType.CONTROL);
+        target.setLastValue(initialValue);
+
+        time = new UGenInput(InputType.CONTROL);
+        time.setLastValue(glideTime);
+
+        currentValue = initialValue;
+        prevTime = glideTime;
+    }
+
+    public Glide(Gain gain , float initialValue, float glideTime) {
         super();
         initialValue = (initialValue <= 0.0001f) ? -80f : (float) (20 * Math.log10(initialValue));
         target = new UGenInput(InputType.CONTROL);
@@ -44,15 +59,36 @@ public class Glide extends UGen {
     }
 
     public boolean fadingIn() {
-        return this.target.getLastValue() > currentValue;
+        float currentVal = currentValue;
+        if(currentValue < -70) {
+            currentVal = -80;
+        }
+
+        if(currentValue > -0.005) {
+            currentVal = 0;
+        }
+        return currentVal > this.lastTime;
     }
 
     public boolean fadingOut() {
-        return  this.target.getLastValue() < currentValue;
+        float currentVal = currentValue;
+        if(currentValue < -70) {
+            currentVal = -80;
+        }
+
+        if(currentValue > -0.005) {
+            currentVal = 0;
+        }
+
+        return currentVal < this.lastTime;
+    }
+
+    public boolean fading() {
+        return fadingIn() || fadingOut();
     }
 
     public void setGlideTime(float newTime) {
-        time.setLastValue(Math.max(0.001f, newTime)); // avoid zero/negative
+        time.setLastValue(Math.max(0.001f, newTime / 20)); // avoid zero/negative
     }
 
     @Override
@@ -77,18 +113,35 @@ public class Glide extends UGen {
 
         // Update current value
         currentValue = currentValue * coeff + tgt * (1.0f - coeff);
-
+        lastTime = currentValue;
         // Output to all channels
         Arrays.fill(channels, currentValue);
     }
 
     public float getValue() {
-        return currentValue;
+        float currentVal = currentValue;
+        if(currentValue < -70) {
+            currentVal = -80;
+        }
+
+        if(currentValue > -0.005) {
+            currentVal = 0;
+        }
+
+        return (float) Math.pow(10.0, currentVal / 20.0);
+    }
+
+    public float getTarget() {
+       return (float) Math.pow(10.0, target.getLastValue() / 20.0);
     }
 
     public void setValue(float glide, float volume) {
         setGlideTime(glide);
         setTarget(volume);
+    }
+    //Dummy void
+    public void discard() {
+
     }
 }
 

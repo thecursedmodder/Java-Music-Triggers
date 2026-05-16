@@ -2,23 +2,23 @@ package net.cursedmodder.javatriggers.util.debug.watch;
 
 import net.cursedmodder.javatriggers.JavaTriggers;
 import net.cursedmodder.javatriggers.triggers.base.TriggerBase;
+import net.cursedmodder.javatriggers.util.debug.AudioLogger;
 
 import java.awt.*;
 import java.util.function.Supplier;
 
-public class DebugUI {
+public final class DebugUI {
     private static DebugWindow WINDOW;
 
     public static void init() {
-        if (WINDOW != null) return;
-
         if (GraphicsEnvironment.isHeadless()) {
-            System.out.println("Debug UI disabled: Headless environment");
+            AudioLogger.warn("Headless environment detect! Disabling DEBUG_UI");
         } else {
-            System.setProperty("java.awt.headless", "false");
-            WINDOW = new DebugWindow();
+
         }
 
+        System.setProperty("java.awt.headless", "false");
+        WINDOW = new DebugWindow();
     }
 
     public static void addTrigger(TriggerBase triggerBase) {
@@ -27,6 +27,7 @@ public class DebugUI {
     }
 
     private static void ensureInit() {
+
         System.setProperty("java.awt.headless", "false");
         if (WINDOW == null) {
             init();
@@ -43,6 +44,7 @@ public class DebugUI {
     }
 
     public static void watch(String group, String key, Supplier<Object> supplier, Supplier<Color> colorSupplier) {
+        //AudioLogger.info("Ui status: " + JavaTriggers.TriggerDebugScreen);
         if(!JavaTriggers.TriggerDebugScreen) return;
         ensureInit();
         if (WINDOW == null) return;

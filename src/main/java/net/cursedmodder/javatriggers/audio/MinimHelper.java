@@ -22,7 +22,7 @@ public class MinimHelper {
 
         if (is == null) {
             AudioLogger.error("[Minim] RESOURCE NOT FOUND: " + fileName);
-            AudioLogger.error("[Minim] Make sure the file is in src/main/resources/ and copied to the JAR root (or subfolder).");
+            AudioLogger.error("[Minim] Make sure the file is in src/main/resources/assets/javatriggers/audio and copied to the JAR root (or subfolder).");
             // Optional: also try the other lookup method
             is = parent.getClass().getResourceAsStream("/" + fileName);
             if (is != null) {

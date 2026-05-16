@@ -9,6 +9,7 @@ import ddf.minim.ugens.Summer;
 import net.cursedmodder.javatriggers.audio.AudioPlayer;
 import net.cursedmodder.javatriggers.audio.MinimHelper;
 import net.cursedmodder.javatriggers.audio.PlayerAudioStatus;
+
 import net.cursedmodder.javatriggers.audio.decoder.Glide;
 import net.cursedmodder.javatriggers.triggers.songs.layer.LayerCondition;
 import net.cursedmodder.javatriggers.triggers.songs.layer.LayeredSong;
@@ -42,8 +43,13 @@ public class AudioLayer {
         this.summer = player.getAudioMixer();
         this.condition = condition;
         this.lpf = lpf;
-        this.filePlayer.patch(gain).patch(lpf).patch(summer);
-        //if(!player.getSong().playOnce) filePlayer.loop();
+        //this.glide.patch(gain.gain);
+
+        glide.patch(gain.gain);
+
+        filePlayer.patch(gain);
+        gain.patch(lpf).patch(summer);
+
         this.filePlayer.pause();
     }
 

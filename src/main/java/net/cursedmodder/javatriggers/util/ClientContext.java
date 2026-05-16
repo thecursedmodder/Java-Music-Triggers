@@ -5,6 +5,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -18,6 +20,8 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ClientContext {
     private static final Minecraft mc = Minecraft.getInstance();
@@ -173,6 +177,21 @@ public class ClientContext {
         return mobsFinal;
     }
 
+    public static boolean isMobTypeNear(int radius, int height,int minCount, String... type) {
+        Set<String> allowedMobs;
+        allowedMobs = Set.of(type);
+        List<Mob> mobs = ClientContext.getMobsInAreaAroundPlayer(radius, height);
+        if(!allowedMobs.isEmpty())  {
+            mobs = mobs.stream()
+                    .filter(mob -> allowedMobs.contains(GeneralConversionUtil.getEntityStringId(mob)))
+                    .collect(Collectors.toList());
+        }
+        if(mobs.size() >= minCount) {
+            return true;
+        }
+        return false;
+    }
+
     public static boolean isMobTargetingPlayer(Mob mob) {
         Player player = mc.player;
         if(player == null) return false;
@@ -195,6 +214,16 @@ public class ClientContext {
             return biomeName.toString().equals(biomeId);
         }
         return false;
+    }
+
+    public static boolean isPlayerInBiomeTag(TagKey<Biome> tag) {
+        Minecraft mc = Minecraft.getInstance();
+
+        if (mc.level == null || mc.player == null) {
+            return false;
+        }
+
+        return mc.level.getBiome(mc.player.blockPosition()).is(tag);
     }
 
     public boolean isFullMoon() {
@@ -242,6 +271,15 @@ public class ClientContext {
             return false;
         } else {
             return getTimeInDay(level) >= 12000 && getTimeInDay(level) <= 13000;
+        }
+    }
+
+    public static boolean isBetweenTimeFrame(int min, int max) {
+        Level level = mc.level;
+        if (level == null) {
+            return false;
+        } else {
+            return getTimeInDay(level) >= min && getTimeInDay(level) <= max;
         }
     }
 

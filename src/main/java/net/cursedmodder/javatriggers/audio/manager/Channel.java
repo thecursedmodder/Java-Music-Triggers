@@ -35,20 +35,8 @@ public class Channel implements Runnable {
         audioPlayer.tick();
     }
 
-    public void setAudio(Song song) {
-        new Thread(() -> {
-            AudioLogger.info("Passed Loading Check");
-
-            audioPlayer.changeSong(song);
-
-            this.song = song;
-            //player.playFadeIn(layers);
-        }, "Audio_Channel").start();
-    }
-
     public void setAudio(Song song, TriggerBase trigger) {
         audioPlayer.changeSong(song);
-        AudioLogger.info("Passed Loading Check");
         this.song = song;
     }
 
@@ -60,6 +48,7 @@ public class Channel implements Runnable {
     public void continueSong(Song song) {
         //TODO This isn't ever activated when needed
         if(audioPlayer.getSong() != null && audioPlayer.getSong() == song && song.getAttachedTrigger().isTriggerState(TriggerState.FADING_OUT)) {
+            AudioLogger.info("Continuing song!");
             audioPlayer.continueSong(song);
         } else AudioLogger.warn("Failed to continue song");
     }

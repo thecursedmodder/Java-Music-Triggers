@@ -40,6 +40,7 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
         pauseVolumePercentage = pauseVol;
         DebugUI.watch(this.getName(), "state", this::triggerState);
         registerSongs(songs);
+        AudioLogger.info("Registered Trigger " + this.getName());
     }
 
     public TriggerBase(int Priority, Song... songs) {
@@ -56,7 +57,7 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
     }
 
     public void setTriggerState(TriggerState state) {
-        AudioLogger.info("Trigger " + this.getClass().getSimpleName() + " is being set to " + state.name() + " from " + this.state.name());
+        AudioLogger.info("Trigger " + this.getName() + "'s STATE is being set to " + state.name() + " from " + this.state.name());
         this.state = state;
     }
 
@@ -84,6 +85,7 @@ public abstract class TriggerBase implements Comparable<TriggerBase> {
     protected void setPauseVolumePercentage(float volume) {
         pauseVolumePercentage = volume;
     }
+
     public boolean is(TriggerBase triggerBase) {
         return triggerBase == this;
     }

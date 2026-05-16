@@ -1,6 +1,7 @@
 package net.cursedmodder.javatriggers.audio.decoder;
 
 import ddf.minim.AudioOutput;
+import ddf.minim.UGen;
 import ddf.minim.ugens.Gain;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -50,10 +51,10 @@ public class GlideOutput {
         new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(1);
 
                     if (gliding) {
-                        countSinceGlide += 10;
+                        countSinceGlide += 1;
 
                         float progress = Math.min(1.0f, (float) countSinceGlide / glideTime);
 

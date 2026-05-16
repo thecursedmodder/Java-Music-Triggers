@@ -27,13 +27,14 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 @OnlyIn(Dist.CLIENT)
-public class AudioPlayer  {
+public class AudioPlayer {
     private static int currentID;
     private final int sampleRate = 44100;
     Minim minim;
     public final int ID;
     private final Summer summer;
-    private final GlideOutput masterGlider;
+    public Gain masterGain;
+    private Glide masterGlider;
     private LowPassFS lpf;
     protected AudioOutput output;
 
@@ -68,8 +69,8 @@ public class AudioPlayer  {
     public AudioPlayer(int id) {
         minim = new Minim(new MinimHelper(this));
         JavaTriggers.players.add(this);
-        output = minim.getLineOut(Minim.STEREO, 6144);
-        masterGlider = new GlideOutput(output, 1F, 100);
+        output = minim.getLineOut(Minim.STEREO, 4096);
+        masterGlider = new Glide(1F, 100);
         summer = new Summer();
         summer.patch(output);
 
@@ -89,7 +90,6 @@ public class AudioPlayer  {
 
     public void changeSong(Song song) {
         if(switching && song == queuedSong) return;
-        AudioLogger.info("Passed switching check: " + song.getSongName());
         changeToNextSong(song.getFadeIn() > 0, song);
     }
 
@@ -97,9 +97,7 @@ public class AudioPlayer  {
     private volatile boolean cancel;
 
     public void continueSong(Song song) {
-        AudioLogger.info("Trying to bring it back!");
         if(this.song == song && isCancelable) {
-            AudioLogger.info("Bringing back currentSong");
             cancelSongChange();
             resetQueueAll();
             song.getAttachedTrigger().setTriggerState(TriggerState.PLAYING);
@@ -110,6 +108,7 @@ public class AudioPlayer  {
     public void changeToNextSong(boolean fade, Song song) {
         if(switching && song != queuedSong) {
             if(isCancelable) {
+                AudioLogger.info("Interrupting song change with " + song.getSongName() + "for Trigger " + song.getAttachedTrigger().getName());
                 cancelSongChange();
                 resetQueueAll();
             }
@@ -118,7 +117,75 @@ public class AudioPlayer  {
         switching = true;
         isCancelable = true;
         if(fade) {
-            //AudioLogger.info("Passed fade boolean");
+            preloadNextSong(song);
+            if(this.song != null && !this.song.mustFinish()) {
+                this.fadeOut(false);
+            }
+
+            new Thread(() -> {
+                while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading.get() || this.song != null && this.song.mustFinish() && this.isPlaying()) {
+                    //AudioLogger.info("Spinning");
+                    if (cancel) break;
+                    Thread.onSpinWait();
+                }
+
+                isCancelable = false;
+                if (cancel) {
+                    AudioLogger.info("Song change was canceled!");
+                    switching = false;
+                    cancel = false;
+                    return;
+                }
+
+                if (FoundationTriggerHandler.currentTrigger != null)
+                    FoundationTriggerHandler.currentTrigger.TriggerEnd();
+
+                FoundationTriggerHandler.currentTrigger = queuedSong.getAttachedTrigger();
+                if (this.player != null) this.player.pause();
+                if (this.song != null) {
+                    this.song.getAttachedTrigger().setTriggerState(TriggerState.IDLE);
+                    this.song.hasPlayed = true;
+                }
+                if(minim != null && player != null) {
+                    player.close();
+                }
+                this.player = queuedPlayer;
+                if (this.player == null) {
+                    resetQueueAll();
+                    return;
+                }
+                Minecraft.getInstance().execute(() -> {
+                    this.setSong(queuedSong);
+                    this.lpf = new LowPassFS(20000, sampleRate);
+                    if(this.glide != null) this.glide.discard();
+                    this.gain = queuedFadeGain;
+                    this.glide = queuedVolumeGlide;
+                    this.masterGain = new Gain(FoundationTriggerHandler.masterVolume);
+                    this.masterGlider = new Glide(FoundationTriggerHandler.masterVolume, 40);
+
+                    glide.patch(gain.gain);
+                    masterGlider.patch(masterGain.gain);
+
+                    player.patch(gain);
+                    gain.patch(lpf);
+                    lpf.patch(masterGain);
+                    masterGain.patch(summer);
+
+                    song.getAttachedTrigger().setTriggerState(TriggerState.PLAYING);
+                    if(!layers.isEmpty()) {
+                        layers.forEach(AudioLayer::discard);
+                    }
+                    if (song instanceof LayeredSong) {
+                        this.layers = queuedLayers;
+                        this.layers.forEach(AudioLayer::sync);
+                        this.layers.forEach(AudioLayer::silentPlay);
+                    }
+                    AudioLogger.info("Fading in song " + this.song.getSongName() + " Fade in");
+                    playFadeIn();
+                    resetQueue();
+                });
+            }, "Audio_Switcher").start();
+        } else {
             preloadNextSong(song);
             if(this.song != null && !this.song.mustFinish()) {
                 this.fadeOut(false);
@@ -156,14 +223,23 @@ public class AudioPlayer  {
                     return;
                 }
                 Minecraft.getInstance().execute(() -> {
-
                     this.setSong(queuedSong);
                     this.lpf = new LowPassFS(20000, sampleRate);
                     if(this.glide != null) this.glide.discard();
                     this.gain = queuedFadeGain;
                     this.glide = queuedVolumeGlide;
-                    player.patch(gain).patch(lpf).patch(summer);
-                    AudioLogger.info("Fading in " + song.getSongName());
+                    this.masterGain = new Gain(FoundationTriggerHandler.masterVolume);
+                    this.masterGlider = new Glide(1F, 40);
+
+                    glide.patch(gain.gain);
+                    masterGlider.patch(masterGain.gain);
+
+// audio chain
+                    player.patch(gain);
+                    gain.patch(lpf);
+                    lpf.patch(masterGain);
+                    masterGain.patch(summer);
+
                     song.getAttachedTrigger().setTriggerState(TriggerState.PLAYING);
                     if(!layers.isEmpty()) {
                         layers.forEach(AudioLayer::discard);
@@ -173,56 +249,11 @@ public class AudioPlayer  {
                         this.layers.forEach(AudioLayer::sync);
                         this.layers.forEach(AudioLayer::silentPlay);
                     }
-                    // if(!song.playOnce) player.loop();
-                    playFadeIn();
-                    resetQueue();
-                });
-            }, "Audio_Switcher").start();
-        } else {
-            preloadNextSong(song);
-            if(this.song != null && !this.song.mustFinish()) {
-                this.fadeOut(false);
-            }
-            new Thread(() -> {
-                while (isStatus(PlayerAudioStatus.FADING_OUT) && !song.getAttachedTrigger().canForceInterrupt() || loading.get() || this.song != null && this.song.mustFinish() && this.isPlaying()) {
-                    if(cancel) break;
-                    Thread.onSpinWait();
-                }
-
-
-                isCancelable = false;
-                if(cancel) {
-                    switching = false;
-                    cancel = false;
-                    return;
-                }
-                FoundationTriggerHandler.currentTrigger = queuedSong.getAttachedTrigger();
-                if(this.player != null) this.player.pause();
-                if(this.song != null) {
-                    this.song.getAttachedTrigger().setTriggerState(TriggerState.IDLE);
-                    this.song.hasPlayed = true;
-                }
-                this.player = queuedPlayer;
-                if (this.player == null) {
-                    resetQueueAll();
-                    return;
-                }
-                Minecraft.getInstance().execute(() -> {
-                    this.setSong(queuedSong);
-                    this.lpf = new LowPassFS(20000, sampleRate);
-                    this.gain = queuedFadeGain;
-                    this.glide = queuedVolumeGlide;
-                    player.patch(gain).patch(lpf).patch(summer);
-                    AudioLogger.info("Playing " + song.getSongName());
-                    song.getAttachedTrigger().setTriggerState(TriggerState.PLAYING);
-                    if(song instanceof LayeredSong) {
-                        this.layers = queuedLayers;
-                        this.layers.forEach(AudioLayer::sync);
-                        this.layers.forEach(AudioLayer::silentPlay);
-                    }
-                    // if(!song.playOnce) player.loop();
-                    glide.setImmediate(maxVolume);
-                    playAt(song.startTime);
+                    AudioLogger.info("Setting song " + this.song.getSongName() + " Fade in");
+                    if(!song.playFromLastPosition) {
+                        playAt(song.startTime);
+                    } else playAt(song.readPosition());
+                    glide.setImmediate(song.getVolume());
                     resetQueue();
                 });
             }, "Audio_Switcher").start();
@@ -230,7 +261,6 @@ public class AudioPlayer  {
     }
 
     private void cancelSongChange() {
-        AudioLogger.info("Canceling song change");
         cancel = true;
         isCancelable = false;
     }
@@ -258,6 +288,7 @@ public class AudioPlayer  {
         if(this.song != null && this.song.playFromLastPosition) {
             this.song.isPlaying = false;
             if((double) this.song.readPosition() / player.position() <= 0.97) {
+                AudioLogger.info("Restarting song: " + song.getSongName() + " at " + (float) song.startTime / 1000 + " seconds");
                 this.song.setPosition(player.position());
             } else this.song.setPosition(song.startTime);
         }
@@ -270,22 +301,25 @@ public class AudioPlayer  {
         }
         this.song = song;
     }
+
     private Thread audioQueue;
+
     public void preloadNextSong(Song song) {
         queuedSong = song;
         if(audioQueue != null) {
-            if (this.loading.get() || queuedPlayer != null) {
+            AudioLogger.info("Attempting to cancel preload!");
+            if (this.loading.get()) {
                 audioQueue.interrupt();
                 loading.compareAndSet(false, true); //Should fix thread de sync
                 audioQueue = null;
                 resetAudioQueue();
-            }
+                AudioLogger.info("SUCCESS!" + " WAS LOADING: " + this.loading + "OR PLAYER WAS QUEUED: " + queuedPlayer);
+            } else AudioLogger.info("FAIL!");
         }
         loading.compareAndSet(false, true);
 
         audioQueue = new Thread(() -> {
-            AudioLogger.info("Queueing song " + song.getSongName() + " for " + song.getAttachedTrigger());
-            queuedPlayer = new FilePlayer(minim.loadFileStream(song.getSongName()));
+            queuedPlayer = new FilePlayer(minim.loadFileStream(song.getSongName(), 2048, true));
             queuedFadeGain = new Gain(-80);
             queuedVolumeGlide = new Glide(queuedFadeGain, 0F, 50);
             if(queuedSong instanceof LayeredSong song1) {
@@ -293,9 +327,10 @@ public class AudioPlayer  {
             }
             queuedPlayer.pause();
             loading.compareAndSet(true, false);
+            AudioLogger.info("Preloaded the song: " + song.getSongName());
+            audioQueue = null;
         }, "Audio_Queue");
         audioQueue.start();
-        audioQueue = null;
     }
 
 
@@ -324,14 +359,12 @@ public class AudioPlayer  {
     public void play() {
         if(player != null) {
             if (isPaused()) {
-                AudioLogger.info("Resuming Player!");
                 paused = false;
                 lastVolumeChange = 0;
                 player.play();
                 this.layers.forEach(AudioLayer::silentPlay);
             } else if (!player.isPlaying()) {
                 if(queuedPlayer == null) {
-                    AudioLogger.info("Starting player");
                     player.play();
                     this.layers.forEach(AudioLayer::silentPlay);
                 }
@@ -344,9 +377,9 @@ public class AudioPlayer  {
             player.pause();
             paused = true;
             switch (loggingID) {
-               case 1 -> AudioLogger.info("Pausing player for layer");
-                case 2 ->  { }//Menu Pause
-                default -> AudioLogger.info("Pausing player");
+               case 1 -> {}
+                case 2 ->  {}//Menu Pause
+                default -> {}
             }
         }
     }
@@ -354,13 +387,11 @@ public class AudioPlayer  {
     public void playAt(int millis) {
         if(player != null) {
             if (isPaused()) {
-                AudioLogger.info("Resuming Player!");
                 paused = false;
                 player.play(millis);
                 this.layers.forEach(AudioLayer::silentPlay);
             } else if (!player.isPlaying()) {
                 if(queuedPlayer == null) {
-                    AudioLogger.info("Starting player");
                     this.player.play(millis);
                     this.layers.forEach(AudioLayer::silentPlay);
                 }
@@ -373,7 +404,7 @@ public class AudioPlayer  {
         if(player != null) {
             if(player.isPaused()) return true;
             return player.isPlaying();
-        } else AudioLogger.warn("Player is null");
+        }
         return false;
     }
 
@@ -420,7 +451,7 @@ public class AudioPlayer  {
 
         if(paused && song != null) {
             tickCount++;
-            masterGlider.setValue(1000, 0);
+            masterGlider.setValue(100, 0);
             if(tickCount == 20 && song.getAttachedTrigger().PauseVolume() <= 0.001f) {
                 player.pause();
             }
@@ -441,17 +472,18 @@ public class AudioPlayer  {
         }
 
         if(FoundationTriggerHandler.masterVolume != lastVolumeChange && masterGlider != null) {
-            masterGlider.setValue(1000, (FoundationTriggerHandler.masterVolume));
+            masterGlider.setValue(100, (FoundationTriggerHandler.masterVolume));
             lastVolumeChange = FoundationTriggerHandler.masterVolume;
         }
 
         if(this.player == null) return;
-        if(!this.player.isPlaying() && !Minecraft.getInstance().isPaused() && !paused && !switching) {
+        if(!this.player.isPlaying() && !Minecraft.getInstance().isPaused() && !paused && !switching && song != null) {
             song.hasPlayed = true;
-            Song song1 = this.getSong().getAttachedTrigger().getSong();
+            Song song1 = this.getSong().getAttachedTrigger().getSong(); //Looks odd but this pulls a new song from the list
             if(song1 != this.getSong()) {
                 this.changeSong(song1);
             } else if(this.getSong().playOnce <= 0) {
+                AudioLogger.info("Repeating song " + this.song.getSongName() + "! No other songs are available");
                 this.cue(song.startTime);
                 this.playFadeIn();
             }
@@ -475,7 +507,7 @@ public class AudioPlayer  {
         } else playAt(song.readPosition());
         this.setAudioStatus(PlayerAudioStatus.FADING_IN);
         if(!glide.fading()) {
-            fadeTime = fadeIn + 10;
+            fadeTime = fadeIn;
             glide.setValue(this.fadeIn * 50, maxVolume);
         } else {
             float current = glide.getValue();     // current volume
@@ -491,21 +523,20 @@ public class AudioPlayer  {
 
     public void fadeOut(boolean layer) {
         if(this.isStatus(PlayerAudioStatus.FADING_OUT)) {
-            AudioLogger.info("Player is fading out Already");
             return;
         }
 
         if(player == null || glide == null) {
-            AudioLogger.info("Player is null!");
             return;
         }
 
-        AudioLogger.info("Fading out " + song.getSongName());
-
         this.setAudioStatus(PlayerAudioStatus.FADING_OUT);
+        this.song.getAttachedTrigger().setTriggerState(TriggerState.FADING_OUT);
+
+        AudioLogger.info("Fading out song: " + song.getSongName() + "for trigger " + song.getAttachedTrigger().getName());
 
         if(!glide.fading()) {
-            this.fadeTime = fadeOut + 10;
+            this.fadeTime = fadeOut;
             this.glide.setValue(this.fadeOut * 50, 0F);
             this.layers.forEach(AudioLayer::fadeOut);
         } else {
@@ -530,12 +561,18 @@ public class AudioPlayer  {
                 }
                 FoundationTriggerHandler.currentTrigger.setTriggerState(TriggerState.IDLE);
                 FoundationTriggerHandler.currentTrigger = null;
-                setSong(null);
                 this.setAudioStatus(PlayerAudioStatus.IDLE);
-                this.song.isPlaying = false;
+
+                if(this.song != null) {
+                    this.song.isPlaying = false;
+                    AudioLogger.info("Stopping song " + song.getSongName() + " in fadeout Method. There is not another trigger to play");
+                } else AudioLogger.error("Song is null in fadeOut method. This shouldn't ever happen");
+
+                setSong(null);
                 switching = false;
                 player.close();
                 player = null;
+
             }, "Audio_Stop_Thread").start();
         }
     }
